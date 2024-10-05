@@ -4,8 +4,6 @@ import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import './Landing.css'; // Custom CSS file
-import Logo from '../assets/Logo.png';
-import { Image } from 'primereact/image';
 import MiniLogo from '../assets/MiniLogo.png';
 import { useNavigate } from 'react-router-dom';
 import { DataTable } from 'primereact/datatable';

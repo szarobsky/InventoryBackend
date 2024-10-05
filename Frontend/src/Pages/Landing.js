@@ -5,7 +5,6 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import './Landing.css'; // Custom CSS file
 import Logo from '../assets/Logo.png';
-import { Image } from 'primereact/image';
 import MiniLogo from '../assets/MiniLogo.png';
 import { signInWithPopup } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
