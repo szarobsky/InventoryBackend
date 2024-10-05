@@ -29,3 +29,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # maybe add manifest or other django 4.2+ settings
 
 STATIC_ROOT = BASE_DIR/'staticfiles'
+STATIC_URL = '/static/'
