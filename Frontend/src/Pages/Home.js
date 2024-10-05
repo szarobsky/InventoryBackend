@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { signOut } from 'firebase/auth'; // Import signOut function
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import { Toast } from 'primereact/toast';
 import './Landing.css'; // Custom CSS file
 import ThemeSwitcher from '../SwitchTheme';
