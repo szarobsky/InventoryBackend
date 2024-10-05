@@ -8,10 +8,26 @@ import './Landing.css'; // Custom CSS file
 import Logo from '../assets/Logo.png';
 import { Image } from 'primereact/image';
 import MiniLogo from '../assets/MiniLogo.png';
+import { auth, provider } from '../firebaseConfig'; // Firebase configuration
+import { signInWithPopup } from 'firebase/auth';
+
 
 const Landing = () => {
     const [visibleGoal, setVisibleGoal] = useState(false);
     const [visibleAbout, setVisibleAbout] = useState(false);
+    const [visibleLogin, setVisibleLogin] = useState(false);
+    const [user, setUser] = useState(null); // To store logged-in user info
+
+    // Handle Google Login
+    const handleGoogleLogin = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider); // Pass 'auth' and 'provider' here
+            setUser(result.user);
+            setVisibleLogin(false); // Close the dialog after successful login
+        } catch (error) {
+            console.error('Login failed:', error);
+        }
+    };
 
     const startContent = (
         <div className="flex flex-wrap align-items-center gap-3">
@@ -22,7 +38,11 @@ const Landing = () => {
     const endContent = (
         <React.Fragment>
             <div className="flex align-items-center gap-2">
-                <Button label="Login" />
+                {!user ? (
+                    <Button label="Login" onClick={() => setVisibleLogin(true)} />
+                ) : (
+                    <span className="text-white">Welcome, {user.displayName}</span>
+                )}
             </div>
         </React.Fragment>
     );
@@ -43,21 +63,27 @@ const Landing = () => {
                     <Button className='landing-button' onClick={() => setVisibleAbout(true)}>About us</Button>
                 </div>
             </div>
-            <Dialog header="Our Goal" visible={visibleGoal} position={'left'}style={{ width: '50vw' }} onHide={() => setVisibleGoal(false)} footer={footerContent} draggable={false} resizable={false}>
+
+            {/* Dialog for Our Goal */}
+            <Dialog header="Our Goal" visible={visibleGoal} position={'left'} style={{ width: '50vw' }} onHide={() => setVisibleGoal(false)} footer={footerContent} draggable={false} resizable={false}>
                 <p className="m-0">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 </p>
             </Dialog>
+
+            {/* Dialog for About Us */}
             <Dialog header="About Us" visible={visibleAbout} position={'right'} style={{ width: '50vw' }} onHide={() => setVisibleAbout(false)} footer={footerContent} draggable={false} resizable={false}>
                 <p className="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
+            </Dialog>
+
+            {/* Dialog for Login */}
+            <Dialog header="Login" visible={visibleLogin} style={{ width: '30vw' }} onHide={() => setVisibleLogin(false)} draggable={false} resizable={false}>
+                <div className="text-center">
+                    <h3>Sign in with Google</h3>
+                    <Button label="Login with Google" icon="pi pi-google" className="p-button-rounded p-button-danger" onClick={handleGoogleLogin} />
+                </div>
             </Dialog>
         </div>
     );
