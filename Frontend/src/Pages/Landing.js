@@ -11,23 +11,24 @@ import MiniLogo from '../assets/MiniLogo.png';
 import { auth, provider } from '../firebaseConfig'; // Firebase configuration
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
 
 const Landing = () => {
     const [visibleGoal, setVisibleGoal] = useState(false);
     const [visibleAbout, setVisibleAbout] = useState(false);
     const [visibleLogin, setVisibleLogin] = useState(false);
-    const [user, setUser] = useState(null); // To store logged-in user info
     const navigate = useNavigate(); // Initialize useNavigate hook
 
-    // Handle Google Login
+
+    const [user] = useAuthState(auth);
+
     const handleGoogleLogin = async () => {
-        try {
-            const result = await signInWithPopup(auth, provider); // Pass 'auth' and 'provider' here
-            setUser(result.user);
-            setVisibleLogin(false); // Close the dialog after successful login
-        } catch (error) {
-            console.error('Login failed:', error);
-        }
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (error) {
+        console.error("Error signing in with Google:", error);
+      }
     };
 
         // Handle navigation to home page
@@ -50,17 +51,11 @@ const Landing = () => {
         </React.Fragment>
     );
 
-    const footerContent = (
-        <div>
-            <Button label="Close" icon="pi pi-times" onClick={() => { setVisibleGoal(false); setVisibleAbout(false); }} />
-        </div>
-    );
-
     return (
         <div className="landing-container">
             <Toolbar start={startContent} end={endContent} className="toolbar" />
             <div className='landing-center'>
-                <Image src={Logo} alt="Logo" className="landing-logo" />
+                <img src={Logo} alt="Logo" className="landing-logo"/>
                 <div>
                     <Button className='landing-button' onClick={() => setVisibleGoal(true)}>Our Goal</Button>
                     <Button className='landing-button' onClick={() => setVisibleAbout(true)}>About us</Button>
@@ -68,16 +63,22 @@ const Landing = () => {
             </div>
 
             {/* Dialog for Our Goal */}
-            <Dialog header="Our Goal" visible={visibleGoal} position={'left'} style={{ width: '50vw' }} onHide={() => setVisibleGoal(false)} footer={footerContent} draggable={false} resizable={false}>
+            <Dialog header="Our Goal" visible={visibleGoal} position={'left'} style={{ width: '50vw' }} onHide={() => setVisibleGoal(false)} draggable={false} resizable={false}>
                 <p className="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                    Inventory aims to provide a simple and easy to use inventory management system for people keep track of their soon-to-expire foods and ingredients.
                 </p>
             </Dialog>
 
             {/* Dialog for About Us */}
-            <Dialog header="About Us" visible={visibleAbout} position={'right'} style={{ width: '50vw' }} onHide={() => setVisibleAbout(false)} footer={footerContent} draggable={false} resizable={false}>
+            <Dialog header="About Us" visible={visibleAbout} position={'right'} style={{ width: '50vw' }} onHide={() => setVisibleAbout(false)} draggable={false} resizable={false}>
                 <p className="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    This project was made by students of the University of Central Florida for the Knight Hacks VII hackathon in 2024.
+                </p>
+                <p>
+                    This was our first hackathon for the 3 of us and we learned a lot about it, specially about Firebase, DJango, and MongoDB.
+                </p>
+                <p>
+                    We are proud of our project and we hope you like it too.
                 </p>
             </Dialog>
 
