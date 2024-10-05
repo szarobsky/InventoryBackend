@@ -34,9 +34,6 @@ const Landing = () => {
     const [visibleAbout, setVisibleAbout] = useState(false);
     const navigate = useNavigate(); // Initialize useNavigate hook
 
-
-    const [user] = useAuthState(auth);
-
     const handleGoogleLogin = async () => {
       try {
         await signInWithPopup(auth, provider);

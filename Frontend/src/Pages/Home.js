@@ -29,12 +29,10 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const Home = () => {
-    const [visibleLogin, setVisibleLogin] = useState(false);
     const [visibleAddItem, setVisibleAddItem] = useState(false); // State for Add Item dialog
     const [visibleUpdateItem, setVisibleUpdateItem] = useState(false); // State for Update Item dialog
     const [selectedItem, setSelectedItem] = useState(null); // Store the selected item for update
     const navigate = useNavigate(); // Initialize useNavigate hook
-    const [products, setProducts] = useState([]);
     const toast = useRef(null);
 
     // Fake data
