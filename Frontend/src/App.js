@@ -7,7 +7,6 @@ import "./App.css";
 import Home from "./Pages/Home";
 import Landing from "./Pages/Landing";
 import Login from "./Pages/Login";
-import 'primereact/resources/themes/vela-blue/theme.css';
 
 
 function App() {

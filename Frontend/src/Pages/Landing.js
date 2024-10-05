@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
@@ -12,12 +11,13 @@ import { auth, provider } from '../firebaseConfig'; // Firebase configuration
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import ThemeSwitcher from '../SwitchTheme'; // Adjust the path accordingly
+
 
 
 const Landing = () => {
     const [visibleGoal, setVisibleGoal] = useState(false);
     const [visibleAbout, setVisibleAbout] = useState(false);
-    const [visibleLogin, setVisibleLogin] = useState(false);
     const navigate = useNavigate(); // Initialize useNavigate hook
 
 
@@ -26,15 +26,12 @@ const Landing = () => {
     const handleGoogleLogin = async () => {
       try {
         await signInWithPopup(auth, provider);
+        navigate('/home');
+
       } catch (error) {
         console.error("Error signing in with Google:", error);
       }
     };
-
-        // Handle navigation to home page
-        const handleNavigateHome = () => {
-            navigate('/home');
-        };
 
     const startContent = (
         <div className="flex flex-wrap align-items-center gap-3">
@@ -45,8 +42,8 @@ const Landing = () => {
     const endContent = (
         <React.Fragment>
             <div className="flex align-items-center gap-2">
-                <Button label="Home" onClick={handleNavigateHome} />
-                <Button label="Login" onClick={() => setVisibleLogin(true)} />
+                <Button label="Login" onClick={handleGoogleLogin} />
+                <ThemeSwitcher />
             </div>
         </React.Fragment>
     );
@@ -80,14 +77,6 @@ const Landing = () => {
                 <p>
                     We are proud of our project and we hope you like it too.
                 </p>
-            </Dialog>
-
-            {/* Dialog for Login */}
-            <Dialog header="Login" visible={visibleLogin} style={{ width: '30vw' }} onHide={() => setVisibleLogin(false)} draggable={false} resizable={false}>
-                <div className="text-center">
-                    <h3>Sign in with Google</h3>
-                    <Button label="Login with Google" icon="pi pi-google" className="p-button-rounded p-button-danger" onClick={handleGoogleLogin} />
-                </div>
             </Dialog>
         </div>
     );

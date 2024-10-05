@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import 'primereact/resources/themes/saga-blue/theme.css';
+import React, { useState, useRef } from 'react';
 import 'primereact/resources/primereact.min.css';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
@@ -11,15 +10,18 @@ import MiniLogo from '../assets/MiniLogo.png';
 import { useNavigate } from 'react-router-dom';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-
+import { auth } from '../firebaseConfig'; // Import your Firebase configuration
+import { signOut } from 'firebase/auth'; // Import signOut function
+import { Toast } from 'primereact/toast';
+import './Landing.css'; // Custom CSS file
 const Home = () => {
     const [visibleLogin, setVisibleLogin] = useState(false);
     const [visibleAddItem, setVisibleAddItem] = useState(false); // State for Add Item dialog
     const [visibleUpdateItem, setVisibleUpdateItem] = useState(false); // State for Update Item dialog
     const [selectedItem, setSelectedItem] = useState(null); // Store the selected item for update
-    const [user, setUser] = useState(null); // To store logged-in user info
     const navigate = useNavigate(); // Initialize useNavigate hook
     const [products, setProducts] = useState([]);
+    const toast = useRef(null);
 
     // Fake data
     const fakeData = [
@@ -30,22 +32,26 @@ const Home = () => {
         { id: 5, item: 'Item 5', date: '2023-01-05' },
     ];
 
-    // Handle navigation to home page
-    const handleNavigateHome = () => {
-        navigate('/home');
-    };
-
     const startContent = (
         <div className="flex flex-wrap align-items-center gap-3">
             <img src={MiniLogo} alt="Logo" className="landing-mini-logo" />
         </div>
     );
 
+    // Logout function
+    const handleLogout = async () => {
+        try {
+            await signOut(auth); // Sign out the user from Firebase
+            navigate('/'); // Redirect to the landing page
+        } catch (error) {
+            console.error("Error signing out:", error); // Handle errors
+        }
+    };
+
     const endContent = (
         <React.Fragment>
             <div className="flex align-items-center gap-2">
-                <Button label="Home" onClick={handleNavigateHome} />
-                <Button label="Login" onClick={() => setVisibleLogin(true)} />
+                <Button label="Logout" onClick={handleLogout} />
             </div>
         </React.Fragment>
     );
@@ -69,17 +75,27 @@ const Home = () => {
         setVisibleUpdateItem(true); // Open update dialog
     };
 
+    const showSecondary = () => {
+        toast.current.show({ severity: 'info', summary: 'Item Deleted', detail: 'The item has been successfully deleted.', life: 3000 });
+    };
+
     const actionBodyTemplate = (rowData) => {
-        return <Button label="Update" onClick={() => handleUpdateClick(rowData)} />;
+        return (
+            <>
+                <Button label="Update" onClick={() => handleUpdateClick(rowData)} style={{ marginRight: '5px' }} />
+                <Button label="Delete" onClick={showSecondary} />
+            </>
+        );
     };
 
     return (
         <div className="landing-container">
+            <Toast ref={toast} />
             <Toolbar start={startContent} end={endContent} className="toolbar" />
             <h1 style={{ textAlign: 'center' }}>Inventory</h1>
             <div className='landing-center'>
                 <div className="datatable-container">
-                    <DataTable value={fakeData} tableStyle={{ minWidth: '50rem' }}>
+                    <DataTable value={fakeData} >
                         <Column field="item" header="Item"></Column>
                         <Column field="date" header="Date"></Column>
                         <Column field="actions" header="Actions" body={actionBodyTemplate}></Column>

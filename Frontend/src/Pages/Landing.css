@@ -1,11 +1,21 @@
-
+@font-face {
+    font-family: 'Oswald';
+    src: url('../fonts/Oswald-VariableFont_wght.ttf') format('truetype'); /* Adjust this path */
+    font-weight: normal; /* Normal weight */
+    font-style: normal; /* Normal style */
+}
+* {
+    font-family: 'Oswald', sans-serif; /* Use the custom font */
+}
 
 .landing-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
     background-color: #333; /* Optional: Background color for better visibility */
-    color: white; /* Optional: Text color for better visibility */
+    /* color: white; Optional: Text color for better visibility */
+    color:white;
+
 }
 
 .landing-center {
