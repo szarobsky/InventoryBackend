@@ -17,9 +17,11 @@
 }
 
 .landing-logo {
-    margin-bottom: 1rem; /* Optional: Space between the logo and the text */
+    width: 500px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin: 3rem; /* Optional: Space around the logo */
+    border-radius: 25px;
 }
-
 .landing-title {
     text-align: center;
 }
@@ -29,7 +31,7 @@
 }
 
 .landing-mini-logo {
-    width: 50px; /* Adjust the width as needed */
+    width: 25px; /* Adjust the width as needed */
     height: auto; /* Ensure aspect ratio is maintained */
 }
 

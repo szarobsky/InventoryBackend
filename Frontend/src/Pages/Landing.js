@@ -55,7 +55,7 @@ const Landing = () => {
         <div className="landing-container">
             <Toolbar start={startContent} end={endContent} className="toolbar" />
             <div className='landing-center'>
-                <Image src={Logo} alt="Logo" className="landing-logo" />
+                <img src={Logo} alt="Logo" className="landing-logo"/>
                 <div>
                     <Button className='landing-button' onClick={() => setVisibleGoal(true)}>Our Goal</Button>
                     <Button className='landing-button' onClick={() => setVisibleAbout(true)}>About us</Button>
