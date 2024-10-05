@@ -1,0 +1,34 @@
+
+
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #333; /* Optional: Background color for better visibility */
+    color: white; /* Optional: Text color for better visibility */
+}
+
+.landing-center {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.landing-logo {
+    margin-bottom: 1rem; /* Optional: Space between the logo and the text */
+}
+
+.landing-title {
+    text-align: center;
+}
+
+.landing-button{
+    margin-left: 10px;
+}
+
+.landing-mini-logo {
+    width: 50px; /* Adjust the width as needed */
+    height: auto; /* Ensure aspect ratio is maintained */
+}

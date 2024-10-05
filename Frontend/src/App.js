@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import "primeflex/primeflex.css";
+import "./App.css";
+import Home from "./Pages/Home";
+import Landing from "./Pages/Landing";
+import Login from "./Pages/Login";
+import 'primereact/resources/themes/vela-blue/theme.css';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router >
+      <Routes>
+        <Route path="/Home" element={<Home/>}/>
+        <Route path="/Login" element={<Login />} />
+        <Route path="*" element={<Landing/>} />
+      </Routes>
+    </Router>
   );
 }
 
