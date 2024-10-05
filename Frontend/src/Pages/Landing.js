@@ -7,11 +7,24 @@ import './Landing.css'; // Custom CSS file
 import Logo from '../assets/Logo.png';
 import { Image } from 'primereact/image';
 import MiniLogo from '../assets/MiniLogo.png';
-import { auth, provider } from '../firebaseConfig'; // Firebase configuration
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import ThemeSwitcher from '../SwitchTheme'; // Adjust the path accordingly
+
+const firebaseConfig = {
+    apiKey: process.env.REACT_APP_apiKey,
+    authDomain: process.env.REACT_APP_authDomain,
+    projectId: process.env.REACT_APP_projectId,
+    storageBucket: process.env.REACT_APP_storageBucket,
+    messagingSenderId: process.env.REACT_APP_messagingSenderId,
+    appId: process.env.REACT_APP_appId,
+    measurementId: process.env.REACT_APP_measurementId
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 
 

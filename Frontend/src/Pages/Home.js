@@ -10,11 +10,24 @@ import MiniLogo from '../assets/MiniLogo.png';
 import { useNavigate } from 'react-router-dom';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { auth } from '../firebaseConfig'; // Import your Firebase configuration
 import { signOut } from 'firebase/auth'; // Import signOut function
 import { Toast } from 'primereact/toast';
 import './Landing.css'; // Custom CSS file
 import ThemeSwitcher from '../SwitchTheme';
+
+const firebaseConfig = {
+    apiKey: process.env.REACT_APP_apiKey,
+    authDomain: process.env.REACT_APP_authDomain,
+    projectId: process.env.REACT_APP_projectId,
+    storageBucket: process.env.REACT_APP_storageBucket,
+    messagingSenderId: process.env.REACT_APP_messagingSenderId,
+    appId: process.env.REACT_APP_appId,
+    measurementId: process.env.REACT_APP_measurementId
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
 const Home = () => {
     const [visibleLogin, setVisibleLogin] = useState(false);
     const [visibleAddItem, setVisibleAddItem] = useState(false); // State for Add Item dialog
