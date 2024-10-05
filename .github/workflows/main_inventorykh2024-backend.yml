@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - InventoryKH2024
+name: Build and deploy Python app to Azure Web App - InventoryKH2024-backend
 
 on:
   push:
@@ -24,23 +24,34 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
+          cd backend
           python -m venv venv
           source venv/bin/activate
       
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Collect static files
+        run: |
+          cd backend
+          python myproject/manage.py collectstatic --noinput
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: |
+          cd backend
+          zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
-            release.zip
+            backend/release.zip
             !venv/
 
   deploy:
@@ -65,14 +76,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7BFD350749A8455CACA959029C6FDE68 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_33B52DE06BE34716BCE9998EC46FA981 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_106ED05CF3C141299FAB9DB9A37E3B9A }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_DAE1B8ACC3B84E0EA324891F3F2D8CEF }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5C60753DE44F4CB4BF65017D84E11765 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_09179EAD64BA47FFB890BF0F679AF225 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'InventoryKH2024'
+          app-name: 'InventoryKH2024-backend'
           slot-name: 'Production'
           
