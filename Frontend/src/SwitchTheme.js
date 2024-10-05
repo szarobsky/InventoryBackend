@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { PrimeReactContext } from 'primereact/api';
-
+import {Button} from 'primereact/button';
 const ThemeSwitcher = () => {
     const primeReactContext = useContext(PrimeReactContext);
     
@@ -23,12 +23,12 @@ const ThemeSwitcher = () => {
 
     return (
         <div>
-            <button onClick={() => handleThemeChange('/themes/lara-light-blue/theme.css')}>
+            <Button onClick={() => handleThemeChange('/themes/lara-light-blue/theme.css')} style={{marginRight:'10px', fontWeight:'bold'}}>
                 Light Theme
-            </button>
-            <button onClick={() => handleThemeChange('/themes/lara-dark-blue/theme.css')}>
+            </Button>
+            <Button onClick={() => handleThemeChange('/themes/lara-dark-blue/theme.css')} style={{ fontWeight:'bold'}}>
                 Dark Theme
-            </button>
+            </Button>
         </div>
     );
 };
