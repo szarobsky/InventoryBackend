@@ -14,6 +14,7 @@ import { auth } from '../firebaseConfig'; // Import your Firebase configuration
 import { signOut } from 'firebase/auth'; // Import signOut function
 import { Toast } from 'primereact/toast';
 import './Landing.css'; // Custom CSS file
+import ThemeSwitcher from '../SwitchTheme';
 const Home = () => {
     const [visibleLogin, setVisibleLogin] = useState(false);
     const [visibleAddItem, setVisibleAddItem] = useState(false); // State for Add Item dialog
@@ -52,6 +53,7 @@ const Home = () => {
         <React.Fragment>
             <div className="flex align-items-center gap-2">
                 <Button label="Logout" onClick={handleLogout} />
+                <ThemeSwitcher />
             </div>
         </React.Fragment>
     );

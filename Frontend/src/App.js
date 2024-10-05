@@ -6,7 +6,6 @@ import "primeflex/primeflex.css";
 import "./App.css";
 import Home from "./Pages/Home";
 import Landing from "./Pages/Landing";
-import Login from "./Pages/Login";
 
 
 function App() {
@@ -14,7 +13,6 @@ function App() {
     <Router >
       <Routes>
         <Route path="/Home" element={<Home/>}/>
-        <Route path="/Login" element={<Login />} />
         <Route path="*" element={<Landing/>} />
       </Routes>
     </Router>
