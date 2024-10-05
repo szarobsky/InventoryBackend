@@ -10,7 +10,6 @@ import { signInWithPopup } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import ThemeSwitcher from '../SwitchTheme'; // Adjust the path accordingly
 
 const firebaseConfig = {
