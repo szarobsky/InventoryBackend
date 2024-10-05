@@ -11,23 +11,24 @@ import MiniLogo from '../assets/MiniLogo.png';
 import { auth, provider } from '../firebaseConfig'; // Firebase configuration
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
 
 const Landing = () => {
     const [visibleGoal, setVisibleGoal] = useState(false);
     const [visibleAbout, setVisibleAbout] = useState(false);
     const [visibleLogin, setVisibleLogin] = useState(false);
-    const [user, setUser] = useState(null); // To store logged-in user info
     const navigate = useNavigate(); // Initialize useNavigate hook
 
-    // Handle Google Login
+
+    const [user] = useAuthState(auth);
+
     const handleGoogleLogin = async () => {
-        try {
-            const result = await signInWithPopup(auth, provider); // Pass 'auth' and 'provider' here
-            setUser(result.user);
-            setVisibleLogin(false); // Close the dialog after successful login
-        } catch (error) {
-            console.error('Login failed:', error);
-        }
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (error) {
+        console.error("Error signing in with Google:", error);
+      }
     };
 
         // Handle navigation to home page
