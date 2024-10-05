@@ -10,13 +10,14 @@ import { Image } from 'primereact/image';
 import MiniLogo from '../assets/MiniLogo.png';
 import { auth, provider } from '../firebaseConfig'; // Firebase configuration
 import { signInWithPopup } from 'firebase/auth';
-
+import { useNavigate } from 'react-router-dom';
 
 const Landing = () => {
     const [visibleGoal, setVisibleGoal] = useState(false);
     const [visibleAbout, setVisibleAbout] = useState(false);
     const [visibleLogin, setVisibleLogin] = useState(false);
     const [user, setUser] = useState(null); // To store logged-in user info
+    const navigate = useNavigate(); // Initialize useNavigate hook
 
     // Handle Google Login
     const handleGoogleLogin = async () => {
@@ -29,6 +30,11 @@ const Landing = () => {
         }
     };
 
+        // Handle navigation to home page
+        const handleNavigateHome = () => {
+            navigate('/home');
+        };
+
     const startContent = (
         <div className="flex flex-wrap align-items-center gap-3">
             <img src={MiniLogo} alt="Logo" className="landing-mini-logo" />
@@ -38,11 +44,8 @@ const Landing = () => {
     const endContent = (
         <React.Fragment>
             <div className="flex align-items-center gap-2">
-                {!user ? (
-                    <Button label="Login" onClick={() => setVisibleLogin(true)} />
-                ) : (
-                    <span className="text-white">Welcome, {user.displayName}</span>
-                )}
+                <Button label="Home" onClick={handleNavigateHome} />
+                <Button label="Login" onClick={() => setVisibleLogin(true)} />
             </div>
         </React.Fragment>
     );
