@@ -32,3 +32,14 @@
     width: 50px; /* Adjust the width as needed */
     height: auto; /* Ensure aspect ratio is maintained */
 }
+
+.datatable-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-item-button {
+    align-self: flex-start;
+    margin-top: 1rem; /* Optional: Space between the DataTable and the button */
+}

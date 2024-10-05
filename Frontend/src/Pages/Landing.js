@@ -51,12 +51,6 @@ const Landing = () => {
         </React.Fragment>
     );
 
-    const footerContent = (
-        <div>
-            <Button label="Close" icon="pi pi-times" onClick={() => { setVisibleGoal(false); setVisibleAbout(false); }} />
-        </div>
-    );
-
     return (
         <div className="landing-container">
             <Toolbar start={startContent} end={endContent} className="toolbar" />
@@ -69,16 +63,22 @@ const Landing = () => {
             </div>
 
             {/* Dialog for Our Goal */}
-            <Dialog header="Our Goal" visible={visibleGoal} position={'left'} style={{ width: '50vw' }} onHide={() => setVisibleGoal(false)} footer={footerContent} draggable={false} resizable={false}>
+            <Dialog header="Our Goal" visible={visibleGoal} position={'left'} style={{ width: '50vw' }} onHide={() => setVisibleGoal(false)} draggable={false} resizable={false}>
                 <p className="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                    Inventory aims to provide a simple and easy to use inventory management system for people keep track of their soon-to-expire foods and ingredients.
                 </p>
             </Dialog>
 
             {/* Dialog for About Us */}
-            <Dialog header="About Us" visible={visibleAbout} position={'right'} style={{ width: '50vw' }} onHide={() => setVisibleAbout(false)} footer={footerContent} draggable={false} resizable={false}>
+            <Dialog header="About Us" visible={visibleAbout} position={'right'} style={{ width: '50vw' }} onHide={() => setVisibleAbout(false)} draggable={false} resizable={false}>
                 <p className="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    This project was made by students of the University of Central Florida for the Knight Hacks VII hackathon in 2024.
+                </p>
+                <p>
+                    This was our first hackathon for the 3 of us and we learned a lot about it, specially about Firebase, DJango, and MongoDB.
+                </p>
+                <p>
+                    We are proud of our project and we hope you like it too.
                 </p>
             </Dialog>
 
