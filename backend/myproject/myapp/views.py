@@ -1,7 +1,10 @@
-from django.http import JsonResponse, HttpResponseServerError, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponse, HttpResponseServerError, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from .utils import get_mongo_db, check_mongo_connection
 import json
+
+def home(request):
+    return HttpResponse("Welcome to the Home Page!")
 
 @csrf_exempt
 def item(request):
