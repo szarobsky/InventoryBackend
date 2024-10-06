@@ -52,5 +52,6 @@
 
 .add-item-button {
     align-self: flex-start;
-    margin-top: 1rem; /* Optional: Space between the DataTable and the button */
+    margin-top: 5px; /* Optional: Space between the DataTable and the button */
+    margin-bottom: 60px;
 }
