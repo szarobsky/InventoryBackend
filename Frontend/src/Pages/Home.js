@@ -17,6 +17,7 @@ import MiniLogo from '../assets/MiniLogo.png'
 import { Toast } from 'primereact/toast';
 
 const Home = () => {
+    const [disableButton, setDisableButtons] = useState(false)
     const [visibleAddItem, setVisibleAddItem] = useState(false); // State for Add Item dialog
     const [visibleUpdateItem, setVisibleUpdateItem] = useState(false); // State for Update Item dialog
     const [selectedItem, setSelectedItem] = useState(null); // Store the selected item for update
@@ -85,12 +86,21 @@ const Home = () => {
     // Open update dialog and set selected item
     const handleUpdateClick = async (item) => {
         setVisibleUpdateItem(true); // Open update dialog
+        setDisableButtons(true);
         setSelectedItem(item); // Store the item to be updated
+        
+        // Ensure item is not null or undefined
+        if (!item) {
+            console.error("Selected item is null or undefined");
+            setDisableButtons(false);
+            return;
+        }
+
         const updateItem = {
             'firebase_uid': firebase_uid,
             "old_item": {
-                "name": selectedItem.name,
-                "date":  selectedItem.date
+                "name": item.name,
+                "date":  item.date
             },
             "item": {
                 "name": newItemName,
@@ -108,19 +118,48 @@ const Home = () => {
 
         console.log("Result:", data);
         setItems(data.items); // Update the state with the new item
-        toast.current.show({ severity: 'success', summary: 'Success', detail: 'Item added successfully', life: 3000 });
+        toast.current.show({ severity: 'success', summary: 'Success', detail: 'Item updated successfully', life: 3000 });
+        setDisableButtons(false);
         setVisibleUpdateItem(false); // Open update dialog
     };
 
-    const showSecondary = () => {
+    const showSecondary = async (item) => {
+        setDisableButtons(true)
+        setSelectedItem(item); // Store the item to be updated
+        // Ensure item is not null or undefined
+        const updateItem = {
+            'firebase_uid': firebase_uid,
+            "item": {
+                "name": item.name,
+                "date":  item.date
+            },
+        };
+        const response = await fetch('http://127.0.0.1:8000/item/', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updateItem),
+        });
+        const data = await response.json();
+
+        console.log("Result:", data);
+        setItems(data.items); // Update the state with the new item
         toast.current.show({ severity: 'info', summary: 'Item Deleted', detail: 'The item has been successfully deleted.', life: 3000 });
+        setDisableButtons(false)
     };
 
     const actionBodyTemplate = (rowData) => {
+        console.log("rowData in actionBodyTemplate:", rowData); // Debugging statement
+
+        if (!rowData) {
+            console.error("rowData is null or undefined");
+            return null;
+        }
         return (
             <>
-                <Button label="Update" onClick={() => handleUpdateClick(rowData)} style={{ marginRight: '5px' }} />
-                <Button label="Delete" onClick={showSecondary} />
+                <Button label="Update" disabled={disableButton} onClick={() => handleUpdateClick(rowData)} style={{ marginRight: '5px' }} />
+                <Button label="Delete" disabled={disableButton} onClick={() => showSecondary(rowData)} />
             </>
         );
     };
@@ -157,6 +196,12 @@ const Home = () => {
         </div>
     );
 
+    const updateFooterContent = (
+        <div>
+            <Button label="Update" icon="pi pi-check" onClick={() => setVisibleUpdateItem(false)} />
+        </div>
+    );
+
     console.log("Firebase UID in Home:", firebase_uid); // Log the firebase_uid for debugging
 
     return (
@@ -168,7 +213,7 @@ const Home = () => {
                     <DataTable value={items} >
                         <Column field="name" header="Item"></Column>
                         <Column field="date" header="Date" sortable></Column>
-                        <Column field="actions" header="Actions" body={actionBodyTemplate}></Column>
+                        <Column body={actionBodyTemplate} header="Actions" />                    
                     </DataTable>
                     <Button label="Add Item" className="add-item-button" onClick={() => setVisibleAddItem(true)} />
                 </div>
@@ -184,6 +229,29 @@ const Home = () => {
                     <div className="p-field">
                         <label htmlFor="itemDate">Date</label>
                         <input id="itemDate" type="date" className="p-inputtext p-component" value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)} />
+                    </div>
+                </div>
+            </Dialog>
+            {/* Dialog for Update Item */}
+            <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '30vw' }} onHide={() => setVisibleUpdateItem(false)} footer={updateFooterContent} draggable={false} resizable={false}>
+                <div className="p-fluid">
+                    <div className="p-field">
+                        <label htmlFor="updateItemName">Item Name</label>
+                        <input
+                            id="updateItemName"
+                            type="text"
+                            className="p-inputtext p-component"
+                            defaultValue={selectedItem ? selectedItem.item : ''}
+                        />
+                    </div>
+                    <div className="p-field">
+                        <label htmlFor="updateItemDate">Date</label>
+                        <input
+                            id="updateItemDate"
+                            type="date"
+                            className="p-inputtext p-component"
+                            defaultValue={selectedItem ? selectedItem.date : ''}
+                        />
                     </div>
                 </div>
             </Dialog>
