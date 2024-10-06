@@ -5,48 +5,32 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import './Landing.css'; // Custom CSS file
 import Logo from '../assets/Logo.png';
+import { Image } from 'primereact/image';
 import MiniLogo from '../assets/MiniLogo.png';
-import { signInWithRedirect } from 'firebase/auth';
-import { initializeApp, getApps } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { auth, provider } from '../firebaseConfig'; // Firebase configuration
+import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import ThemeSwitcher from '../SwitchTheme'; // Adjust the path accordingly
- 
 
-const sanitizeEnvVar = (envVar) => {
-    return envVar ? envVar.replace(/,$/, '') : envVar;
-};
 
 const Landing = () => {
-    const firebaseConfig = {
-        apiKey: sanitizeEnvVar(process.env.REACT_APP_apiKey),
-        authDomain: sanitizeEnvVar(process.env.REACT_APP_authDomain),
-        projectId: sanitizeEnvVar(process.env.REACT_APP_projectId),
-        storageBucket: sanitizeEnvVar(process.env.REACT_APP_storageBucket),
-        messagingSenderId: sanitizeEnvVar(process.env.REACT_APP_messagingSenderId),
-        appId: sanitizeEnvVar(process.env.REACT_APP_appId),
-        measurementId: sanitizeEnvVar(process.env.REACT_APP_measurementId) 
-    };
-
-
-    
-
-    const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-    
     const [visibleGoal, setVisibleGoal] = useState(false);
     const [visibleAbout, setVisibleAbout] = useState(false);
     const navigate = useNavigate(); // Initialize useNavigate hook
 
+
+    const [user] = useAuthState(auth);
+
     const handleGoogleLogin = async () => {
-        console.log(firebaseConfig);
-        try {
-           await signInWithRedirect(auth, provider); // Use signInWithRedirect instead of signInWithPopup
-           navigate('/home');
-        } catch (error) {
-           console.error("Error signing in with Google:", error);
-        }
-     };
+      try {
+        await signInWithPopup(auth, provider);
+        navigate('/home');
+      } catch (error) {
+        console.error("Error signing in with Google:", error);
+      }
+    };
+
     const startContent = (
         <div className="flex flex-wrap align-items-center gap-3">
             <img src={MiniLogo} alt="Logo" className="landing-mini-logo" />
@@ -56,10 +40,9 @@ const Landing = () => {
     const endContent = (
         <React.Fragment>
             <div className="flex align-items-center gap-2">
-                <Button label="Login" onClick={handleGoogleLogin} /> 
+                <Button label="Login" onClick={handleGoogleLogin} />
                 <ThemeSwitcher />
             </div>
-            {/* onClick={handleGoogleLogin} */}
         </React.Fragment>
     );
 
