@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'primereact/resources/primereact.min.css';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
@@ -26,9 +26,7 @@ const Landing = () => {
         measurementId: process.env.REACT_APP_measurementId 
     };
 
-    useEffect(() => {
-        console.log(firebaseConfig);
-    }, [firebaseConfig]);
+
     
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -39,6 +37,7 @@ const Landing = () => {
     const navigate = useNavigate(); // Initialize useNavigate hook
 
     const handleGoogleLogin = async () => {
+        console.log(firebaseConfig);
         try {
            await signInWithRedirect(auth, provider); // Use signInWithRedirect instead of signInWithPopup
            navigate('/home');
