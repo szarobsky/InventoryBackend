@@ -13,17 +13,19 @@ import { useNavigate } from 'react-router-dom';
 import ThemeSwitcher from '../SwitchTheme'; // Adjust the path accordingly
  
 
-
+const sanitizeEnvVar = (envVar) => {
+    return envVar ? envVar.replace(/,$/, '') : envVar;
+};
 
 const Landing = () => {
     const firebaseConfig = {
-        apiKey: process.env.REACT_APP_apiKey,
-        authDomain: process.env.REACT_APP_authDomain,
-        projectId: process.env.REACT_APP_projectId,
-        storageBucket: process.env.REACT_APP_storageBucket,
-        messagingSenderId: process.env.REACT_APP_messagingSenderId,
-        appId: process.env.REACT_APP_appId,
-        measurementId: process.env.REACT_APP_measurementId 
+        apiKey: sanitizeEnvVar(process.env.REACT_APP_apiKey),
+        authDomain: sanitizeEnvVar(process.env.REACT_APP_authDomain),
+        projectId: sanitizeEnvVar(process.env.REACT_APP_projectId),
+        storageBucket: sanitizeEnvVar(process.env.REACT_APP_storageBucket),
+        messagingSenderId: sanitizeEnvVar(process.env.REACT_APP_messagingSenderId),
+        appId: sanitizeEnvVar(process.env.REACT_APP_appId),
+        measurementId: sanitizeEnvVar(process.env.REACT_APP_measurementId) 
     };
 
 
