@@ -1,48 +1,129 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import 'primereact/resources/primereact.min.css';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import './Landing.css'; // Custom CSS file
-import MiniLogo from '../assets/MiniLogo.png';
-import { useNavigate } from 'react-router-dom';
+import ThemeSwitcher from '../SwitchTheme';
+import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { signOut } from 'firebase/auth'; // Import signOut function
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { app, auth } from '../firebaseConfig.js';
+import MiniLogo from '../assets/MiniLogo.png'
 import { Toast } from 'primereact/toast';
-import './Landing.css'; // Custom CSS file
-import ThemeSwitcher from '../SwitchTheme';
-
-const firebaseConfig = {
-    apiKey: process.env.REACT_APP_apiKey,
-    authDomain: process.env.REACT_APP_authDomain,
-    projectId: process.env.REACT_APP_projectId,
-    storageBucket: process.env.REACT_APP_storageBucket,
-    messagingSenderId: process.env.REACT_APP_messagingSenderId,
-    appId: process.env.REACT_APP_appId,
-    measurementId: process.env.REACT_APP_measurementId
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
 const Home = () => {
     const [visibleAddItem, setVisibleAddItem] = useState(false); // State for Add Item dialog
     const [visibleUpdateItem, setVisibleUpdateItem] = useState(false); // State for Update Item dialog
     const [selectedItem, setSelectedItem] = useState(null); // Store the selected item for update
+    const [items, setItems] = useState([]); // State to store items fetched from the server
+    const [newItemName, setNewItemName] = useState(''); // State for new item name
+    const [newItemDate, setNewItemDate] = useState(''); // State for new item date
     const navigate = useNavigate(); // Initialize useNavigate hook
     const toast = useRef(null);
+    const location = useLocation();
+    const { firebase_uid } = location.state || {};
 
-    // Fake data
-    const fakeData = [
-        { id: 1, item: 'Item 1', date: '2023-01-01' },
-        { id: 2, item: 'Item 2', date: '2023-01-02' },
-        { id: 3, item: 'Item 3', date: '2023-01-03' },
-        { id: 4, item: 'Item 4', date: '2023-01-04' },
-        { id: 5, item: 'Item 5', date: '2023-01-05' },
-    ];
+    useEffect(() => {
+        const fetchItems = async () => {
+            if (firebase_uid) {
+                const user = {'firebase_uid': firebase_uid}
+                // Make an Axios GET request to fetch items for the user
+                try {
+                    const response = await fetch('http://127.0.0.1:8000/user/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(user),
+                    });
+        
+                    
+                    const data = await response.json();
+                    setItems(data.items); // Update the state with the fetched items
+                    console.log("items:", data.items);
+                } catch (error) {
+                    console.error("Error fetching items:", error);
+                }
+            };
+        }
+        fetchItems();
+    }, [firebase_uid]);
+
+    const addItem = async () => {
+        try {
+            const newItem = {
+                'firebase_uid': firebase_uid,
+                "item": {
+                    "name": newItemName,
+                    "date":  newItemDate
+                }
+            };
+            const response = await fetch('http://127.0.0.1:8000/item/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newItem),
+            });
+            const data = await response.json();
+
+            console.log("Result:", data);
+            setItems(data.items); // Update the state with the new item
+            toast.current.show({ severity: 'success', summary: 'Success', detail: 'Item added successfully', life: 3000 });
+            setVisibleAddItem(false); // Close the dialog
+        } catch (error) {
+            console.error("Error adding item:", error);
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Failed to add item', life: 3000 });
+        }
+    };
+
+    // Open update dialog and set selected item
+    const handleUpdateClick = async (item) => {
+        setVisibleUpdateItem(true); // Open update dialog
+        setSelectedItem(item); // Store the item to be updated
+        const updateItem = {
+            'firebase_uid': firebase_uid,
+            "old_item": {
+                "name": selectedItem.name,
+                "date":  selectedItem.date
+            },
+            "item": {
+                "name": newItemName,
+                "date":  newItemDate
+            },
+        };
+        const response = await fetch('http://127.0.0.1:8000/item/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updateItem),
+        });
+        const data = await response.json();
+
+        console.log("Result:", data);
+        setItems(data.items); // Update the state with the new item
+        toast.current.show({ severity: 'success', summary: 'Success', detail: 'Item added successfully', life: 3000 });
+        setVisibleUpdateItem(false); // Open update dialog
+    };
+
+    const showSecondary = () => {
+        toast.current.show({ severity: 'info', summary: 'Item Deleted', detail: 'The item has been successfully deleted.', life: 3000 });
+    };
+
+    const actionBodyTemplate = (rowData) => {
+        return (
+            <>
+                <Button label="Update" onClick={() => handleUpdateClick(rowData)} style={{ marginRight: '5px' }} />
+                <Button label="Delete" onClick={showSecondary} />
+            </>
+        );
+    };
 
     const startContent = (
         <div className="flex flex-wrap align-items-center gap-3">
@@ -71,46 +152,22 @@ const Home = () => {
 
     const footerContent = (
         <div>
-            <Button label="Submit" icon="pi pi-check" onClick={() => setVisibleAddItem(false)} />
+            <Button label="Cancel" icon="pi pi-times" onClick={() => setVisibleAddItem(false)} className="p-button-text" />
+            <Button label="Save" icon="pi pi-check" onClick={addItem} />
         </div>
     );
 
-    // Footer for Update dialog with the label "Update"
-    const updateFooterContent = (
-        <div>
-            <Button label="Update" icon="pi pi-check" onClick={() => setVisibleUpdateItem(false)} />
-        </div>
-    );
-
-    // Open update dialog and set selected item
-    const handleUpdateClick = (item) => {
-        setSelectedItem(item); // Store the item to be updated
-        setVisibleUpdateItem(true); // Open update dialog
-    };
-
-    const showSecondary = () => {
-        toast.current.show({ severity: 'info', summary: 'Item Deleted', detail: 'The item has been successfully deleted.', life: 3000 });
-    };
-
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <>
-                <Button label="Update" onClick={() => handleUpdateClick(rowData)} style={{ marginRight: '5px' }} />
-                <Button label="Delete" onClick={showSecondary} />
-            </>
-        );
-    };
+    console.log("Firebase UID in Home:", firebase_uid); // Log the firebase_uid for debugging
 
     return (
-        <div className="landing-container">
-            <Toast ref={toast} />
+        <div>
             <Toolbar start={startContent} end={endContent} className="toolbar" />
             <h1 style={{ textAlign: 'center' }}>Inventory</h1>
             <div className='landing-center'>
                 <div className="datatable-container">
-                    <DataTable value={fakeData} >
-                        <Column field="item" header="Item"></Column>
-                        <Column field="date" header="Date"></Column>
+                    <DataTable value={items} >
+                        <Column field="name" header="Item"></Column>
+                        <Column field="date" header="Date" sortable></Column>
                         <Column field="actions" header="Actions" body={actionBodyTemplate}></Column>
                     </DataTable>
                     <Button label="Add Item" className="add-item-button" onClick={() => setVisibleAddItem(true)} />
@@ -122,38 +179,15 @@ const Home = () => {
                 <div className="p-fluid">
                     <div className="p-field">
                         <label htmlFor="itemName">Item Name</label>
-                        <input id="itemName" type="text" className="p-inputtext p-component" />
+                        <input id="itemName" type="text" className="p-inputtext p-component" value={newItemName} onChange={(e) => setNewItemName(e.target.value)} />
                     </div>
                     <div className="p-field">
                         <label htmlFor="itemDate">Date</label>
-                        <input id="itemDate" type="date" className="p-inputtext p-component" />
+                        <input id="itemDate" type="date" className="p-inputtext p-component" value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)} />
                     </div>
                 </div>
             </Dialog>
-
-            {/* Dialog for Update Item */}
-            <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '30vw' }} onHide={() => setVisibleUpdateItem(false)} footer={updateFooterContent} draggable={false} resizable={false}>
-                <div className="p-fluid">
-                    <div className="p-field">
-                        <label htmlFor="updateItemName">Item Name</label>
-                        <input
-                            id="updateItemName"
-                            type="text"
-                            className="p-inputtext p-component"
-                            defaultValue={selectedItem ? selectedItem.item : ''}
-                        />
-                    </div>
-                    <div className="p-field">
-                        <label htmlFor="updateItemDate">Date</label>
-                        <input
-                            id="updateItemDate"
-                            type="date"
-                            className="p-inputtext p-component"
-                            defaultValue={selectedItem ? selectedItem.date : ''}
-                        />
-                    </div>
-                </div>
-            </Dialog>
+            <Toast ref={toast} />
         </div>
     );
 };

@@ -12,6 +12,7 @@ import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import ThemeSwitcher from '../SwitchTheme'; // Adjust the path accordingly
+import axios from 'axios';
 
 
 const Landing = () => {
@@ -24,8 +25,31 @@ const Landing = () => {
 
     const handleGoogleLogin = async () => {
       try {
-        await signInWithPopup(auth, provider);
-        navigate('/home');
+        const result = await signInWithPopup(auth, provider);
+        let user = result.user;
+        const firebase_uid = user.uid; // Get the firebase_uid
+        console.log("Firebase UID:", firebase_uid); // Log the firebase_uid for debugging
+        const getUser = async () => {
+            if (firebase_uid) {
+                try {
+                    const newUser = {'firebase_uid': firebase_uid, 'items': []};
+                    const response = await fetch('http://127.0.0.1:8000/user/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(newUser),
+                    });
+                    const data = await response.json();
+                    console.log(data)
+                } catch (error) {
+                    console.error("Error fetching items:", error);
+                }
+            };
+        }
+        getUser();
+        
+        navigate('/home', { state: {firebase_uid }});
       } catch (error) {
         console.error("Error signing in with Google:", error);
       }

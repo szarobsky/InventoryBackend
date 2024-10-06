@@ -32,26 +32,10 @@ def item(request):
             if result.matched_count == 0:
                 return HttpResponseBadRequest("No document found with the given firebase_uid")
 
-            return JsonResponse({'status': 'success', 'modified_count': result.modified_count}, status=200) # Remove the _id field if it exists
+            items = refreshItems(firebase_uid, collection)
+            return JsonResponse({'items': items})
         except json.JSONDecodeError:
             return HttpResponseBadRequest("Invalid JSON")
-        except Exception as e:
-            return HttpResponseServerError(f"An error occurred: {e}")
-    elif request.method == 'GET':
-        if not check_mongo_connection():
-            return HttpResponseServerError("Failed to connect to MongoDB")
-        try:
-            data = json.loads(request.body)
-            firebase_uid = data.pop('firebase_uid', None)
-            if not firebase_uid:
-                return HttpResponseBadRequest("Missing firebase_uid")
-            db = get_mongo_db()
-            collection = db['users']
-            user = collection.find_one({'firebase_uid': firebase_uid})
-            if user is None:
-                return HttpResponseBadRequest("No document found with the given firebase_uid")
-            user['_id'] = str(user['_id'])
-            return JsonResponse(user, status=200)
         except Exception as e:
             return HttpResponseServerError(f"An error occurred: {e}")
     elif request.method == 'DELETE':
@@ -71,11 +55,16 @@ def item(request):
             print(del_item)
             if del_item is None:
                 return HttpResponseBadRequest("Missing item")
+            itemExists = collection.find_one({'firebase_uid': firebase_uid, 'items': del_item})
+            if itemExists is None:
+                return HttpResponseBadRequest("Item does not exist")
             result = collection.update_many(
                 {'firebase_uid': firebase_uid}, 
                 { '$pull': { 'items': del_item } }
             )
-            return JsonResponse({'status': 'success'})
+
+            items = refreshItems(firebase_uid, collection)
+            return JsonResponse({'items': items})
         except Exception as e:
             return HttpResponseServerError(f"An error occurred: {e}")
     elif request.method == 'PUT':
@@ -109,11 +98,13 @@ def item(request):
                 {'firebase_uid': firebase_uid},
                 {'$push': {'items': new_item}}
             )
-            return JsonResponse({'status': 'success'})
+
+            items = refreshItems(firebase_uid, collection)
+            return JsonResponse({'items': items})
         except Exception as e:
             return HttpResponseServerError(f"An error occurred: {e}")
     else:
-        return HttpResponseBadRequest("Only POST and GET and DELETE requests are allowed")
+        return HttpResponseBadRequest("Only POST and PUT and DELETE requests are allowed")
     
 @csrf_exempt
 def user(request):
@@ -129,32 +120,29 @@ def user(request):
             db = get_mongo_db()
             collection = db['users']
 
-            # Check if a user with the same firebase_uid already exists
-            if collection.find_one({'firebase_uid': firebase_uid}):
-                return HttpResponseBadRequest("User with this firebase_uid already exists")
+            prevUser = collection.find_one({'firebase_uid': firebase_uid})
 
-            result = collection.insert_one(data)
-            return JsonResponse({'status': 'success', 'inserted_id': str(result.inserted_id)}, status=201)
+            # Check if a user with the same firebase_uid already exists
+            if prevUser:
+                prevUser['_id'] = str(prevUser['_id'])
+                return JsonResponse(prevUser)
+
+            result = collection.insert_one({'firebase_uid': firebase_uid, 'items': []})
+            return JsonResponse({'firebase_uid': firebase_uid, 'items': []})
         except json.JSONDecodeError:
             return HttpResponseBadRequest("Invalid JSON")
         except Exception as e:
             return HttpResponseServerError(f"An error occurred: {e}")
-    elif request.method == 'GET':
-        if not check_mongo_connection():
-            return HttpResponseServerError("Failed to connect to MongoDB")
-        try:
-            data = json.loads(request.body)
-            firebase_uid = data.pop('firebase_uid', None)
-            if not firebase_uid:
-                return HttpResponseBadRequest("Missing firebase_uid")
-            db = get_mongo_db()
-            collection = db['users']
-            user = collection.find_one({'firebase_uid': firebase_uid})
-            if user is None:
-                return JsonResponse({"exists": "false"}, status=200)
-            else:
-                return JsonResponse({"exists": "true"}, status=200)
-        except Exception as e:
-            return HttpResponseServerError(f"An error occurred: {e}")
     else:
-        return HttpResponseBadRequest("Only POST and GET requests are allowed")
+        return HttpResponseBadRequest("Only POST requests are allowed")
+    
+
+def refreshItems(firebase_uid, collection):
+    user = collection.find_one({'firebase_uid': firebase_uid})
+    items = user.get('items', [])
+    print(items)
+
+    items = sorted(items, key=lambda x: x['date'])
+    print(items)
+    
+    return items
