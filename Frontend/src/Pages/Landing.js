@@ -7,7 +7,7 @@ import './Landing.css'; // Custom CSS file
 import Logo from '../assets/Logo.png';
 import MiniLogo from '../assets/MiniLogo.png';
 import { signInWithRedirect } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import ThemeSwitcher from '../SwitchTheme'; // Adjust the path accordingly
@@ -30,8 +30,8 @@ const Landing = () => {
 
 
     
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+
+    const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];    const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
     
     const [visibleGoal, setVisibleGoal] = useState(false);
