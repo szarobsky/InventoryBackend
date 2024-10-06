@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'primereact/resources/primereact.min.css';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
@@ -26,9 +26,9 @@ const Landing = () => {
         measurementId: process.env.REACT_APP_measurementId
     };
 
-    // useEffect(() => {
-    //     console.log(firebaseConfig);
-    // }, []);
+    useEffect(() => {
+        console.log(firebaseConfig);
+    }, []);
     
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
