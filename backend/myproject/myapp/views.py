@@ -32,7 +32,8 @@ def item(request):
             if result.matched_count == 0:
                 return HttpResponseBadRequest("No document found with the given firebase_uid")
 
-            items = refreshItems(firebase_uid, collection)
+            user = collection.find_one({'firebase_uid': firebase_uid})
+            items = user.get('items', [])
             return JsonResponse({'items': items})
         except json.JSONDecodeError:
             return HttpResponseBadRequest("Invalid JSON")
@@ -63,7 +64,8 @@ def item(request):
                 { '$pull': { 'items': del_item } }
             )
 
-            items = refreshItems(firebase_uid, collection)
+            user = collection.find_one({'firebase_uid': firebase_uid})
+            items = user.get('items', [])
             return JsonResponse({'items': items})
         except Exception as e:
             return HttpResponseServerError(f"An error occurred: {e}")
@@ -99,7 +101,8 @@ def item(request):
                 {'$push': {'items': new_item}}
             )
 
-            items = refreshItems(firebase_uid, collection)
+            user = collection.find_one({'firebase_uid': firebase_uid})
+            items = user.get('items', [])
             return JsonResponse({'items': items})
         except Exception as e:
             return HttpResponseServerError(f"An error occurred: {e}")
@@ -135,14 +138,3 @@ def user(request):
             return HttpResponseServerError(f"An error occurred: {e}")
     else:
         return HttpResponseBadRequest("Only POST requests are allowed")
-    
-
-def refreshItems(firebase_uid, collection):
-    user = collection.find_one({'firebase_uid': firebase_uid})
-    items = user.get('items', [])
-    print(items)
-
-    items = sorted(items, key=lambda x: x['date'])
-    print(items)
-    
-    return items

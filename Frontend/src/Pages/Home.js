@@ -234,27 +234,27 @@ const Home = () => {
             </Dialog>
             {/* Dialog for Update Item */}
             <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '30vw' }} onHide={() => setVisibleUpdateItem(false)} footer={updateFooterContent} draggable={false} resizable={false}>
-                <div className="p-fluid">
-                    <div className="p-field">
-                        <label htmlFor="updateItemName">Item Name</label>
-                        <input
-                            id="updateItemName"
-                            type="text"
-                            className="p-inputtext p-component"
-                            defaultValue={selectedItem ? selectedItem.item : ''}
-                        />
+                    <div className="p-fluid">
+                        <div className="p-field">
+                            <label htmlFor="updateItemName">Item Name</label>
+                            <input
+                                id="updateItemName"
+                                type="text"
+                                className="p-inputtext p-component"
+                                defaultValue={selectedItem ? selectedItem.item : ''}
+                            />
+                        </div>
+                        <div className="p-field">
+                            <label htmlFor="updateItemDate">Date</label>
+                            <input
+                                id="updateItemDate"
+                                type="date"
+                                className="p-inputtext p-component"
+                                defaultValue={selectedItem ? selectedItem.date : ''}
+                            />
+                        </div>
                     </div>
-                    <div className="p-field">
-                        <label htmlFor="updateItemDate">Date</label>
-                        <input
-                            id="updateItemDate"
-                            type="date"
-                            className="p-inputtext p-component"
-                            defaultValue={selectedItem ? selectedItem.date : ''}
-                        />
-                    </div>
-                </div>
-            </Dialog>
+                </Dialog>
             <Toast ref={toast} />
         </div>
     );
