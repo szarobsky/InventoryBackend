@@ -1,23 +1,23 @@
 import { initializeApp } from 'firebase/app';
 import { GoogleAuthProvider, connectAuthEmulator, getAuth,  } from "firebase/auth";
 
-
-const apiKey = process.env.REACT_APP_apiKey
-const authDomain = process.env.REACT_APP_authDomain
-const projectId = process.env.REACT_APP_projectId
-const storageBucket = process.env.REACT_APP_storageBucket
-const messagingSenderId = process.env.REACT_APP_messagingSenderId
-const appId = process.env.REACT_APP_appId
-const measurementId = process.env.REACT_APP_measurementId
+console.log("Environment Variables:");
+console.log("REACT_APP_apiKey:", process.env.REACT_APP_apiKey);
+console.log("REACT_APP_authDomain:", process.env.REACT_APP_authDomain);
+console.log("REACT_APP_projectId:", process.env.REACT_APP_projectId);
+console.log("REACT_APP_storageBucket:", process.env.REACT_APP_storageBucket);
+console.log("REACT_APP_messagingSenderId:", process.env.REACT_APP_messagingSenderId);
+console.log("REACT_APP_appId:", process.env.REACT_APP_appId);
+console.log("REACT_APP_measurementId:", process.env.REACT_APP_measurementId);
 
 const firebaseConfig = {
-    apiKey: apiKey,
-    authDomain: authDomain,
-    projectId: projectId,
-    storageBucket: storageBucket,
-    messagingSenderId: messagingSenderId,
-    appId: appId,
-    measurementId: measurementId
+    apiKey: process.env.REACT_APP_apiKey,
+    authDomain: process.env.REACT_APP_authDomain,
+    projectId: process.env.REACT_APP_projectId,
+    storageBucket: process.env.REACT_APP_storageBucket,
+    messagingSenderId: process.env.REACT_APP_messagingSenderId,
+    appId: process.env.REACT_APP_appId,
+    measurementId: process.env.REACT_APP_measurementId
   };
   
   const app = initializeApp(firebaseConfig);
