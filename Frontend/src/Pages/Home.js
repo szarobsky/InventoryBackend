@@ -4,17 +4,14 @@ import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import './Landing.css'; // Custom CSS file
-import ThemeSwitcher from '../SwitchTheme';
-import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { signOut } from 'firebase/auth'; // Import signOut function
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { app, auth } from '../firebaseConfig.js';
+import { auth } from '../firebaseConfig.js';
 import MiniLogo from '../assets/MiniLogo.png'
 import { Toast } from 'primereact/toast';
+import ThemeSwitcher from '../SwitchTheme'; // Import ThemeSwitcher
 
 const Home = () => {
     const [disableButton, setDisableButtons] = useState(false)
@@ -202,12 +199,10 @@ const Home = () => {
         </div>
     );
 
-    console.log("Firebase UID in Home:", firebase_uid); // Log the firebase_uid for debugging
-
     return (
         <div>
             <Toolbar start={startContent} end={endContent} className="toolbar" />
-            <h1 style={{ textAlign: 'center' }}>Inventory</h1>
+            <h1 style={{ textAlign: 'center' }}>Pantry Pal</h1>
             <div className='landing-center'>
                 <div className="datatable-container">
                     <DataTable value={items} >
