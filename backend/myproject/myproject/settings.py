@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
+import os
 
 MONGO_DB_URI = config('MONGO_DB_URI', default='mongodb://localhost:27017/your_database_name')
 
