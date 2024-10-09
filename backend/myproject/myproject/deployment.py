@@ -7,6 +7,8 @@ CRSF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
 
 SECRET_KEY = os.environ['MY_SECRET_KEY']
 
+DEBUG = False
+
 
 
 MIDDLEWARE = [
