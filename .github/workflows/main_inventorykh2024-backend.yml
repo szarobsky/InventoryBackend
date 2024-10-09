@@ -43,6 +43,9 @@ jobs:
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
+      - name: Clean up old files
+        run: az webapp deployment source config-zip --name  InventoryKH2024-backend --resource-group Inventory --src release.zip --clean
+
       - name: Zip artifact for deployment
         run: |
           cd backend
