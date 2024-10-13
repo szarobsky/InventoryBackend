@@ -46,7 +46,7 @@ jobs:
       - name: Zip artifact for deployment
         run: |
           cd backend
-          zip -r release.zip * venv/ 
+          zip -r ../release.zip * venv/ 
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
@@ -70,7 +70,9 @@ jobs:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: |
+          cd backend
+          unzip release.zip
 
       
       - name: Login to Azure
@@ -86,4 +88,5 @@ jobs:
         with:
           app-name: 'InventoryKH2024-backend'
           slot-name: 'Production'
+          package: './backend'
           
