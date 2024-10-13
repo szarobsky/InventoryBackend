@@ -80,11 +80,6 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5C60753DE44F4CB4BF65017D84E11765 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_09179EAD64BA47FFB890BF0F679AF225 }}
 
-      - name: Unpack output.tar.gz
-        run: |
-          tar -xzvf output.tar.gz -C ./wwwroot
-  
-
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
