@@ -9,8 +9,6 @@ SECRET_KEY = os.environ['MY_SECRET_KEY']
 
 DEBUG = False
 
-
-
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
