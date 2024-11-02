@@ -152,7 +152,7 @@ const Home = () => {
                 "date":  item.date
             },
         };
-        const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/tem/', {
+        const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
