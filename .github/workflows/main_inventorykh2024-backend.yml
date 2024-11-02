@@ -22,19 +22,6 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Create and start virtual environment
-        run: |
-          cd backend
-          python -m venv venv
-          source venv/bin/activate
-      
-      - name: Install dependencies
-        run: |
-          cd backend
-          source venv/bin/activate
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
       - name: Collect static files
         run: |
           cd backend
@@ -46,7 +33,7 @@ jobs:
       - name: Zip artifact for deployment
         run: |
           cd backend
-          zip -r release.zip * venv/ 
+          zip -r release.zip . --exclude 'venv/*'
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
