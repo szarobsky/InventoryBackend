@@ -27,7 +27,7 @@ const Landing = () => {
             if (firebase_uid) {
                 try {
                     const newUser = {'firebase_uid': firebase_uid, 'items': []};
-                    const response = await fetch('http://127.0.0.1:8000/user/', {
+                    const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/user/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

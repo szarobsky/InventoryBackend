@@ -32,7 +32,7 @@ const Home = () => {
                 const user = {'firebase_uid': firebase_uid}
                 // Make an Axios GET request to fetch items for the user
                 try {
-                    const response = await fetch('http://127.0.0.1:8000/user/', {
+                    const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/user/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const Home = () => {
                     "date":  newItemDate
                 }
             };
-            const response = await fetch('http://127.0.0.1:8000/item/', {
+            const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ const Home = () => {
                 "date":  newItemDate
             },
         };
-        const response = await fetch('http://127.0.0.1:8000/item/', {
+        const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ const Home = () => {
                 "date":  item.date
             },
         };
-        const response = await fetch('http://127.0.0.1:8000/item/', {
+        const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/tem/', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
