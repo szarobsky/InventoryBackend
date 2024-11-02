@@ -41,7 +41,14 @@ const Home = () => {
                     });
         
                     
-                    const data = await response.json();
+                    const data = await response.text(); // Use text to capture the full response
+                    try {
+                        const jsonData = JSON.parse(data);
+                        data = jsonData // Attempt to parse as JSON
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                        console.log('Response data:', data); // Log the raw response for debugging
+                    }
                     setItems(data.items); // Update the state with the fetched items
                     console.log("items:", data.items);
                 } catch (error) {
@@ -68,7 +75,14 @@ const Home = () => {
                 },
                 body: JSON.stringify(newItem),
             });
-            const data = await response.json();
+            const data = await response.text(); // Use text to capture the full response
+            try {
+                const jsonData = JSON.parse(data);
+                data = jsonData // Attempt to parse as JSON
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                console.log('Response data:', data); // Log the raw response for debugging
+            }
 
             console.log("Result:", data);
             setItems(data.items); // Update the state with the new item
@@ -111,7 +125,14 @@ const Home = () => {
             },
             body: JSON.stringify(updateItem),
         });
-        const data = await response.json();
+        const data = await response.text(); // Use text to capture the full response
+        try {
+            const jsonData = JSON.parse(data);
+            data = jsonData // Attempt to parse as JSON
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
+            console.log('Response data:', data); // Log the raw response for debugging
+        }
 
         console.log("Result:", data);
         setItems(data.items); // Update the state with the new item
@@ -138,7 +159,14 @@ const Home = () => {
             },
             body: JSON.stringify(updateItem),
         });
-        const data = await response.json();
+        const data = await response.text(); // Use text to capture the full response
+        try {
+            const jsonData = JSON.parse(data);
+            data = jsonData // Attempt to parse as JSON
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
+            console.log('Response data:', data); // Log the raw response for debugging
+        }
 
         console.log("Result:", data);
         setItems(data.items); // Update the state with the new item

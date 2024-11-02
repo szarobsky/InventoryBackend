@@ -34,8 +34,13 @@ const Landing = () => {
                         },
                         body: JSON.stringify(newUser),
                     });
-                    const data = await response.json();
-                    console.log(data)
+                    const data = await response.text(); // Use text to capture the full response
+                    try {
+                        const jsonData = JSON.parse(data); // Attempt to parse as JSON
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                        console.log('Response data:', data); // Log the raw response for debugging
+                    }
                 } catch (error) {
                     console.error("Error fetching items:", error);
                 }
