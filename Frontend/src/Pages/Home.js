@@ -41,7 +41,7 @@ const Home = () => {
                     });
         
                     
-                    const data = await response.text(); // Use text to capture the full response
+                    let data = await response.text(); // Use text to capture the full response
                     try {
                         const jsonData = JSON.parse(data);
                         data = jsonData // Attempt to parse as JSON
@@ -75,7 +75,7 @@ const Home = () => {
                 },
                 body: JSON.stringify(newItem),
             });
-            const data = await response.text(); // Use text to capture the full response
+            let data = await response.text(); // Use text to capture the full response
             try {
                 const jsonData = JSON.parse(data);
                 data = jsonData // Attempt to parse as JSON
@@ -125,7 +125,7 @@ const Home = () => {
             },
             body: JSON.stringify(updateItem),
         });
-        const data = await response.text(); // Use text to capture the full response
+        let data = await response.text(); // Use text to capture the full response
         try {
             const jsonData = JSON.parse(data);
             data = jsonData // Attempt to parse as JSON
@@ -159,7 +159,7 @@ const Home = () => {
             },
             body: JSON.stringify(updateItem),
         });
-        const data = await response.text(); // Use text to capture the full response
+        let data = await response.text(); // Use text to capture the full response
         try {
             const jsonData = JSON.parse(data);
             data = jsonData // Attempt to parse as JSON
