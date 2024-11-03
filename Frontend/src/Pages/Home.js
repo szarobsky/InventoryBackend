@@ -115,9 +115,11 @@ const Home = () => {
 
             console.log("Result:", data);
             setItems(data.items); // Update the state with the new item
+            setDisableButtons(false);
             toast.current.show({ severity: 'success', summary: 'Success', detail: 'Item added successfully', life: 3000 });
             setVisibleAddItem(false); // Close the dialog
         } catch (error) {
+            setDisableButtons(false);
             console.error("Error adding item:", error);
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Failed to add item', life: 3000 });
         }
