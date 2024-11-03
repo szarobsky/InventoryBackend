@@ -25,7 +25,6 @@ const Home = () => {
     const toast = useRef(null);
     const location = useLocation();
     const { firebase_uid } = location.state || {};
-    const currentDate = initDateTime();
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -78,7 +77,7 @@ const Home = () => {
         return adjustedDate.toISOString().slice(0, 16); // Format to 'YYYY-MM-DDTHH:MM'
     };
 
-    const initDateTime = () => {
+    /*const initDateTime = () => {
         let now = new Date();
         let offset = now.getTimezoneOffset() * 60000;
         let adjustedDate = new Date(now.getTime() - offset);
@@ -86,6 +85,8 @@ const Home = () => {
         console.log("formattedDate:", formattedDate);
         return formattedDate;
     };
+
+    const currentDate = initDateTime();*/
 
     const addItem = async () => {
         try {
