@@ -284,7 +284,7 @@ const Home = () => {
             </div>
 
             {/* Dialog for Add Item */}
-            <Dialog header="Add Item" visible={visibleAddItem} style={{ width: '50vw'}} onHide={() => setVisibleAddItem(false)} footer={footerContent} draggable={false} resizable={false} visible={visibleUpdateItem}>
+            <Dialog header="Add Item" visible={visibleAddItem} style={{ width: '50vw'}} onHide={() => setVisibleAddItem(false)} footer={footerContent} draggable={false} resizable={false}>
                 <div className="p-fluid">
                     <div className="p-field">
                         <label htmlFor="itemName">Item Name</label>
