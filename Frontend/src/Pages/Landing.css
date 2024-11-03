@@ -14,8 +14,7 @@
     align-items: center;
     height: 100vh;
     width: 100%;
-    /* background-color: #333; Optional: Background color for better visibility */
-    /* color: white; Optional: Text color for better visibility */
+
 
 }
 
@@ -29,15 +28,15 @@
 
 .landing-center {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     flex-grow: 1;
 }
 
 .landing-logo {
-    height: auto; /* Maintain aspect ratio */
-    margin: 3rem; /* Optional: Space around the logo */
+    height: auto; 
+    margin: 3rem; 
     border-radius: 25px;
 }
 .landing-title {
@@ -49,8 +48,8 @@
 }
 
 .landing-mini-logo {
-    width: 25px; /* Adjust the width as needed */
-    height: auto; /* Ensure aspect ratio is maintained */
+    width: 25px; 
+    height: auto; 
 }
 
 .datatable-container {
@@ -61,7 +60,7 @@
 
 .add-item-button {
     align-self: flex-start;
-    margin-top: 5px; /* Optional: Space between the DataTable and the button */
+    margin-top: 5px; 
     margin-bottom: 60px;
 }
 

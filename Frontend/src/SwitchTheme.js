@@ -1,16 +1,17 @@
 import React, { useContext } from 'react';
 import { PrimeReactContext } from 'primereact/api';
 import {Button} from 'primereact/button';
+
+//ThemeSwitcher component
 const ThemeSwitcher = () => {
     const primeReactContext = useContext(PrimeReactContext);
-    
     if (!primeReactContext) {
         console.error("PrimeReactContext is not available");
         return null; // Handle the error gracefully
     }
-
     const { changeTheme } = primeReactContext;
 
+    //Function to handle theme change
     const handleThemeChange = (newTheme) => {
         // Change theme to the selected one
         console.log("Changing theme to", newTheme);
@@ -21,6 +22,7 @@ const ThemeSwitcher = () => {
         );
     };
 
+    //Render the component
     return (
         <div>
             <Button onClick={() => handleThemeChange('/themes/lara-light-blue/theme.css')} style={{marginRight:'10px', fontWeight:'bold'}}>
@@ -33,4 +35,5 @@ const ThemeSwitcher = () => {
     );
 };
 
+//Export ThemeSwitcher component
 export default ThemeSwitcher;

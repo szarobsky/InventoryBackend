@@ -9,12 +9,12 @@ const firebaseConfig = {
     messagingSenderId: process.env.REACT_APP_messagingSenderId,
     appId: process.env.REACT_APP_appId,
     measurementId: process.env.REACT_APP_measurementId
-  };
+};
   
-  const app = initializeApp(firebaseConfig);
-  const provider = new GoogleAuthProvider();
-  const auth = getAuth(app);
-  if (window.location.hostname === "localhost") {
+const app = initializeApp(firebaseConfig);
+const provider = new GoogleAuthProvider();
+const auth = getAuth(app);
+if (window.location.hostname === "localhost") {
     connectAuthEmulator(auth, "http://localhost:9099");
-  }  
-  export { auth, provider }
+}  
+export { auth, provider }
