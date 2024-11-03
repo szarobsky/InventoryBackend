@@ -135,6 +135,8 @@ const Home = () => {
         setVisibleUpdateItem(true); // Open update dialog
         setDisableButtons(true);
         setSelectedItem(item); // Store the item to be updated
+        setNewItemName(item.name); // Set the name to the selected item
+        setNewItemDate(item.date); // Set the date to the selected item
         
         // Ensure item is not null or undefined
         if (!item) {
