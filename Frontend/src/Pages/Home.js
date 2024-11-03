@@ -25,6 +25,7 @@ const Home = () => {
     const toast = useRef(null);
     const location = useLocation();
     const { firebase_uid } = location.state || {};
+    const currentDate = initDateTime();
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
