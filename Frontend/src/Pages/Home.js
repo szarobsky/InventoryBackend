@@ -26,6 +26,8 @@ const Home = () => {
     const location = useLocation();
     const { firebase_uid } = location.state || {};
 
+    setDisableButtons(true);
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user) {
@@ -61,6 +63,7 @@ const Home = () => {
                     }
                     setItems(data.items); // Update the state with the fetched items
                     console.log("items:", data.items);
+                    setDisableButtons(false);
                 } catch (error) {
                     console.error("Error fetching items:", error);
                 }
@@ -84,17 +87,6 @@ const Home = () => {
     const convertDateTimeString = (str) => {
         return str.substring(0, 10) + " " + str.substring(11)
     };
-
-    /*const initDateTime = () => {
-        let now = new Date();
-        let offset = now.getTimezoneOffset() * 60000;
-        let adjustedDate = new Date(now.getTime() - offset);
-        let formattedDate = adjustedDate.toISOString().substring(0,16); // For minute precision
-        console.log("formattedDate:", formattedDate);
-        return formattedDate;
-    };
-
-    const currentDate = initDateTime();*/
 
     const addItem = async () => {
         try {
@@ -120,10 +112,6 @@ const Home = () => {
             } catch (error) {
                 console.error('Error parsing JSON:', error);
                 console.log('Response data:', data); // Log the raw response for debugging
-            }
-
-            for (let i = 0; i < data.items.length; i++) {
-                data.items[i].date = convertToISODateTime(data.items[i].date);
             }
 
             console.log("Add result:", data);
@@ -164,11 +152,12 @@ const Home = () => {
     const handleUpdateSubmit = async () => {
         setVisibleUpdateItem(false)
         let stringDate = convertDateTimeString(newItemDate);
+        let oldStringDate = convertDateTimeString(selectedItem.date);
         const updateItem = {
             'firebase_uid': firebase_uid,
             "old_item": {
                 "name": selectedItem.name,
-                "date":  selectedItem.date
+                "date":  oldStringDate
             },
             "item": {
                 "name": newItemName,
@@ -191,10 +180,6 @@ const Home = () => {
             console.log('Response data:', data); // Log the raw response for debugging
         }
 
-        for (let i = 0; i < data.items.length; i++) {
-            data.items[i].date = convertToISODateTime(data.items[i].date);
-        }
-
         console.log("Update result:", data);
         setItems(data.items); // Update the state with the new item
         toast.current.show({ severity: 'success', summary: 'Success', detail: 'Item updated successfully', life: 3000 });
@@ -205,11 +190,12 @@ const Home = () => {
     const showSecondary = async (item) => {
         setDisableButtons(true)
         setSelectedItem(item); // Store the item to be updated
+        let stringDate = convertToISODateTime(item.date);
         const updateItem = {
             'firebase_uid': firebase_uid,
             "item": {
                 "name": item.name,
-                "date":  item.date
+                "date":  stringDate
             },
         };
         const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
@@ -226,10 +212,6 @@ const Home = () => {
         } catch (error) {
             console.error('Error parsing JSON:', error);
             console.log('Response data:', data); // Log the raw response for debugging
-        }
-
-        for (let i = 0; i < data.items.length; i++) {
-            data.items[i].date = convertToISODateTime(data.items[i].date);
         }
 
         console.log("Result:", data);
@@ -302,7 +284,7 @@ const Home = () => {
                         <Column field="date" header="Date" sortable></Column>
                         <Column body={actionBodyTemplate} header="Actions" />                    
                     </DataTable>
-                    <Button label="Add Item" className="add-item-button" onClick={handleAddClick} />
+                    <Button label="Add Item" disabled={disableButton} className="add-item-button" onClick={handleAddClick} />
                 </div>
             </div>
 
@@ -339,7 +321,7 @@ const Home = () => {
                                 type="datetime-local"
                                 className="p-inputtext p-component"
                                 defaultValue={selectedItem ? selectedItem.date : ''}
-                                value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)}
+                                value={convertToISODateTime(newItemDate)} onChange={(e) => setNewItemDate(e.target.value)}
                             />
                         </div>
                     </div>
