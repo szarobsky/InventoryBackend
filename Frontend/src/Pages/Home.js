@@ -74,7 +74,8 @@ const Home = () => {
         now.setHours(23, 59, 0, 0); // Set time to 11:59 PM
         const offset = now.getTimezoneOffset() * 60000;
         const adjustedDate = new Date(now.getTime() - offset);
-        return adjustedDate.toISOString().slice(0, 16); // Format to 'YYYY-MM-DDTHH:MM'
+        const str = adjustedDate.toISOString().slice(0, 16);
+        return str; // Format to 'YYYY-MM-DDTHH:MM'
     };
 
     /*const initDateTime = () => {
