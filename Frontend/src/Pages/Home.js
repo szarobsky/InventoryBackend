@@ -7,7 +7,7 @@ import './Landing.css'; // Custom CSS file
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { signOut } from 'firebase/auth'; // Import signOut function
+import { signOut, onAuthStateChanged } from 'firebase/auth'; // Import signOut function
 import { auth } from '../firebaseConfig.js';
 import MiniLogo from '../assets/MiniLogo.png'
 import { Toast } from 'primereact/toast';
@@ -123,8 +123,8 @@ const Home = () => {
         const updateItem = {
             'firebase_uid': firebase_uid,
             "old_item": {
-                "name": item.name,
-                "date":  item.date
+                "name": selectedItem.name,
+                "date":  selectedItem.date
             },
             "item": {
                 "name": newItemName,

@@ -97,7 +97,7 @@ const Landing = () => {
                     This was our first hackathon for the 3 of us and we learned a lot about it, specially about Firebase, Django, and MongoDB.
                 </p>
                 <p>
-                    We are proud of our project and we hope you like it too.
+                    This project is now being continued on by Sean Zarobsky as a side project.
                 </p>
             </Dialog>
         </div>
