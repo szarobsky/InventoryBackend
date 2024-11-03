@@ -116,7 +116,10 @@ const Home = () => {
             setDisableButtons(false);
             return;
         }
+    };
 
+    const handleUpdateSubmit = async () => {
+        setVisibleUpdateItem(false)
         const updateItem = {
             'firebase_uid': firebase_uid,
             "old_item": {
@@ -233,7 +236,7 @@ const Home = () => {
 
     const updateFooterContent = (
         <div>
-            <Button label="Update" icon="pi pi-check" onClick={() => setVisibleUpdateItem(false)} />
+            <Button label="Update" icon="pi pi-check" onClick={handleUpdateSubmit} />
         </div>
     );
 
@@ -275,6 +278,7 @@ const Home = () => {
                                 type="text"
                                 className="p-inputtext p-component"
                                 defaultValue={selectedItem ? selectedItem.item : ''}
+                                value={newItemName} onChange={(e) => setNewItemName(e.target.value)}
                             />
                         </div>
                         <div className="p-field">
@@ -284,6 +288,7 @@ const Home = () => {
                                 type="date"
                                 className="p-inputtext p-component"
                                 defaultValue={selectedItem ? selectedItem.date : ''}
+                                value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)}
                             />
                         </div>
                     </div>
