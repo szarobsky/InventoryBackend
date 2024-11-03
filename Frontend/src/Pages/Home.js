@@ -77,6 +77,14 @@ const Home = () => {
         return adjustedDate.toISOString().slice(0, 16);; // Format to 'YYYY-MM-DDTHH:MM'
     };
 
+    const convertToISODateTime = (str) => {
+        return str.substring(0, 10) + "T" + str.substring(11)
+    };
+
+    const convertDateTimeString = (str) => {
+        return str.substring(0, 10) + " " + str.substring(11)
+    };
+
     /*const initDateTime = () => {
         let now = new Date();
         let offset = now.getTimezoneOffset() * 60000;
@@ -90,11 +98,12 @@ const Home = () => {
 
     const addItem = async () => {
         try {
+            let stringDate = convertDateTimeString(newItemDate);
             const newItem = {
                 'firebase_uid': firebase_uid,
                 "item": {
                     "name": newItemName,
-                    "date":  newItemDate
+                    "date":  stringDate
                 }
             };
             const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
@@ -113,7 +122,10 @@ const Home = () => {
                 console.log('Response data:', data); // Log the raw response for debugging
             }
 
-            console.log("Result:", data);
+            for (let i = 0; i < data.items.length; i++) {
+                data.items[i].date = convertToISODateTime(data.items[i].date);
+
+            console.log("Add result:", data);
             setItems(data.items); // Update the state with the new item
             setDisableButtons(false);
             toast.current.show({ severity: 'success', summary: 'Success', detail: 'Item added successfully', life: 3000 });
@@ -150,6 +162,7 @@ const Home = () => {
 
     const handleUpdateSubmit = async () => {
         setVisibleUpdateItem(false)
+        let stringDate = convertDateTimeString(newItemDate);
         const updateItem = {
             'firebase_uid': firebase_uid,
             "old_item": {
@@ -158,7 +171,7 @@ const Home = () => {
             },
             "item": {
                 "name": newItemName,
-                "date":  newItemDate
+                "date":  stringDate
             },
         };
         const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
@@ -177,7 +190,10 @@ const Home = () => {
             console.log('Response data:', data); // Log the raw response for debugging
         }
 
-        console.log("Result:", data);
+        for (let i = 0; i < data.items.length; i++) {
+            data.items[i].date = convertToISODateTime(data.items[i].date);
+
+        console.log("Update result:", data);
         setItems(data.items); // Update the state with the new item
         toast.current.show({ severity: 'success', summary: 'Success', detail: 'Item updated successfully', life: 3000 });
         setDisableButtons(false);
@@ -187,7 +203,6 @@ const Home = () => {
     const showSecondary = async (item) => {
         setDisableButtons(true)
         setSelectedItem(item); // Store the item to be updated
-        // Ensure item is not null or undefined
         const updateItem = {
             'firebase_uid': firebase_uid,
             "item": {
@@ -210,6 +225,9 @@ const Home = () => {
             console.error('Error parsing JSON:', error);
             console.log('Response data:', data); // Log the raw response for debugging
         }
+
+        for (let i = 0; i < data.items.length; i++) {
+            data.items[i].date = convertToISODateTime(data.items[i].date);
 
         console.log("Result:", data);
         setItems(data.items); // Update the state with the new item
