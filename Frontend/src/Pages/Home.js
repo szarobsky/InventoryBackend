@@ -27,6 +27,7 @@ const Home = () => {
     const { firebase_uid } = location.state || {};
 
     useEffect(() => {
+        console.log("testing if logged in");
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user) {
                 navigate('/'); // Redirect to Landing page if not logged in
