@@ -41,7 +41,7 @@ jobs:
           source venv/bin/activate
           python myproject/manage.py collectstatic --noinput
         
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+      #Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
         run: |
@@ -70,7 +70,7 @@ jobs:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip release.zip -d /home/site/wwwroot
 
       
       - name: Login to Azure
@@ -86,4 +86,5 @@ jobs:
         with:
           app-name: 'InventoryKH2024-backend'
           slot-name: 'Production'
+          package: /home/site/wwwroot
           
