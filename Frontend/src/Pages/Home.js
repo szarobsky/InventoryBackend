@@ -27,14 +27,13 @@ const Home = () => {
     const { firebase_uid } = location.state || {};
 
     useEffect(() => {
-        console.log("testing if logged in");
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user) {
                 navigate('/'); // Redirect to Landing page if not logged in
             }
         });
 
-        return () => unsubscribe(); // Cleanup subscription on unmount
+        return () => unsubscribe();
     });
 
     useEffect(() => {
@@ -69,6 +68,24 @@ const Home = () => {
         }
         fetchItems();
     }, [firebase_uid]);
+
+    const getTodayAt1159PM = () => {
+        const now = new Date();
+        now.setHours(23, 59, 0, 0); // Set time to 11:59 PM
+        const offset = now.getTimezoneOffset() * 60000;
+        const adjustedDate = new Date(now.getTime() - offset);
+        return adjustedDate.toISOString().slice(0, 16); // Format to 'YYYY-MM-DDTHH:MM'
+    };
+
+    const initDateTime = () => {
+        let now = new Date();
+        let offset = now.getTimezoneOffset() * 60000;
+        let adjustedDate = new Date(now.getTime() - offset);
+        let formattedDate = adjustedDate.toISOString().substring(0,16); // For minute precision
+        let datetimeField = document.getElementById("myDatetimeField");
+        console.log("formattedDate:", formattedDate);
+        return = formattedDate;
+    };
 
     const addItem = async () => {
         try {
@@ -265,7 +282,7 @@ const Home = () => {
                     </div>
                     <div className="p-field">
                         <label htmlFor="itemDate">Date</label>
-                        <input id="itemDate" type="date" className="p-inputtext p-component" value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)} />
+                        <input id="itemDate" type="datetime-local" defaultValue={getTodayAt1159PM()} className="p-inputtext p-component" value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)} />
                     </div>
                 </div>
             </Dialog>
@@ -286,7 +303,7 @@ const Home = () => {
                             <label htmlFor="updateItemDate">Date</label>
                             <input
                                 id="updateItemDate"
-                                type="date"
+                                type="datetime-local"
                                 className="p-inputtext p-component"
                                 defaultValue={selectedItem ? selectedItem.date : ''}
                                 value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)}
