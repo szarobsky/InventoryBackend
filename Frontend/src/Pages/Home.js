@@ -284,7 +284,7 @@ const Home = () => {
             </div>
 
             {/* Dialog for Add Item */}
-            <Dialog header="Add Item" visible={visibleAddItem} style={{ width: '30vw' }} onHide={() => setVisibleAddItem(false)} footer={footerContent} draggable={false} resizable={false} visible={visibleUpdateItem} style={{ width: '80vw', height: '80vh' }}>
+            <Dialog header="Add Item" visible={visibleAddItem} style={{ width: '50vw'}} onHide={() => setVisibleAddItem(false)} footer={footerContent} draggable={false} resizable={false} visible={visibleUpdateItem}>
                 <div className="p-fluid">
                     <div className="p-field">
                         <label htmlFor="itemName">Item Name</label>
@@ -297,7 +297,7 @@ const Home = () => {
                 </div>
             </Dialog>
             {/* Dialog for Update Item */}
-            <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '30vw' }} onHide={() => setVisibleUpdateItem(false)} footer={updateFooterContent} draggable={false} resizable={false} style={{ width: '80vw', height: '80vh' }}>
+            <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '50vw'}} onHide={() => setVisibleUpdateItem(false)} footer={updateFooterContent} draggable={false} resizable={false}>
                     <div className="p-fluid">
                         <div className="p-field">
                             <label htmlFor="updateItemName">Item Name</label>
