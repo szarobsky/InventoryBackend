@@ -34,7 +34,7 @@ const Home = () => {
         });
 
         return () => unsubscribe(); // Cleanup subscription on unmount
-    }, [navigate('/')]);
+    });
 
     useEffect(() => {
         const fetchItems = async () => {
