@@ -70,7 +70,7 @@ jobs:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip -d /home/site/wwwroot
+        run: unzip release.zip -d release
 
       
       - name: Login to Azure
@@ -86,5 +86,5 @@ jobs:
         with:
           app-name: 'InventoryKH2024-backend'
           slot-name: 'Production'
-          package: /home/site/wwwroot
+          package: release
           
