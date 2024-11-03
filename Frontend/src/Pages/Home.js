@@ -38,6 +38,10 @@ const Home = () => {
     });
 
     useEffect(() => {
+        setDisableButtons(true);
+    }, [navigate]);
+
+    useEffect(() => {
         const fetchItems = async () => {
             if (firebase_uid) {
                 const user = {'firebase_uid': firebase_uid}
