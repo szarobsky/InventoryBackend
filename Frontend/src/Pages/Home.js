@@ -137,6 +137,7 @@ const Home = () => {
     const handleUpdateClick = async (item) => {
         setVisibleUpdateItem(true); // Open update dialog
         setDisableButtons(true);
+        item.date = convertToISODateTime(item.date);
         setSelectedItem(item); // Store the item to be updated
         setNewItemName(item.name); // Set the name to the selected item
         setNewItemDate(item.date); // Set the date to the selected item
@@ -297,7 +298,7 @@ const Home = () => {
                     </div>
                     <div className="p-field">
                         <label htmlFor="itemDate">Date</label>
-                        <input id="itemDate" type="datetime-local" className="p-inputtext p-component" value={convertToISODateTime(newItemDate)} onChange={(e) => setNewItemDate(e.target.value)} />
+                        <input id="itemDate" type="datetime-local" className="p-inputtext p-component" value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)} />
                     </div>
                 </div>
             </Dialog>
@@ -320,8 +321,8 @@ const Home = () => {
                                 id="updateItemDate"
                                 type="datetime-local"
                                 className="p-inputtext p-component"
-                                defaultValue={selectedItem ? convertToISODateTime(selectedItem.date) : ''}
-                                value={convertToISODateTime(newItemDate)} onChange={(e) => setNewItemDate(e.target.value)}
+                                defaultValue={selectedItem ? selectedItem.date : ''}
+                                value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)}
                             />
                         </div>
                     </div>
