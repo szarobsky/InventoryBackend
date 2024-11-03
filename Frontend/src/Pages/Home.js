@@ -27,6 +27,16 @@ const Home = () => {
     const { firebase_uid } = location.state || {};
 
     useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigate('/'); // Redirect to Landing page if not logged in
+            }
+        });
+
+        return () => unsubscribe(); // Cleanup subscription on unmount
+    }, [navigate]);
+
+    useEffect(() => {
         const fetchItems = async () => {
             if (firebase_uid) {
                 const user = {'firebase_uid': firebase_uid}
