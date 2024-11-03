@@ -82,7 +82,6 @@ const Home = () => {
         let offset = now.getTimezoneOffset() * 60000;
         let adjustedDate = new Date(now.getTime() - offset);
         let formattedDate = adjustedDate.toISOString().substring(0,16); // For minute precision
-        let datetimeField = document.getElementById("myDatetimeField");
         console.log("formattedDate:", formattedDate);
         return formattedDate;
     };
