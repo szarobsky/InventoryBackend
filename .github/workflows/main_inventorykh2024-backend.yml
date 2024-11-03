@@ -88,5 +88,5 @@ jobs:
         with:
           app-name: 'InventoryKH2024-backend'
           slot-name: 'Production'
-          package: backend/release.zip
+          package: release.zip
           
