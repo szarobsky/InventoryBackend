@@ -185,7 +185,7 @@ const Home = () => {
     const showSecondary = async (item) => {
         setDisableButtons(true)
         setSelectedItem(item); // Store the item to be updated
-        let stringDate = convertToISODateTime(item.date);
+        let stringDate = convertDateTimeString(item.date);
         const updateItem = {
             'firebase_uid': firebase_uid,
             "item": {
@@ -209,7 +209,7 @@ const Home = () => {
             console.log('Response data:', data); // Log the raw response for debugging
         }
 
-        console.log("Result:", data);
+        console.log("Delete result:", data);
         setItems(data.items); // Update the state with the new item
         toast.current.show({ severity: 'info', summary: 'Item Deleted', detail: 'The item has been successfully deleted.', life: 3000 });
         setDisableButtons(false)
