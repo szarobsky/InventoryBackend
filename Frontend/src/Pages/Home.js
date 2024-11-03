@@ -125,6 +125,12 @@ const Home = () => {
         }
     };
 
+    const handleAddClick = () => {
+        setNewItemName(''); // Clear the input field
+        setNewItemDate(getTodayAt1159PM()); // Set the date to today at 11:59 PM
+        setVisibleAddItem(true); // Open the dialog
+    };
+
     // Open update dialog and set selected item
     const handleUpdateClick = async (item) => {
         setVisibleUpdateItem(true); // Open update dialog
@@ -272,7 +278,7 @@ const Home = () => {
                         <Column field="date" header="Date" sortable></Column>
                         <Column body={actionBodyTemplate} header="Actions" />                    
                     </DataTable>
-                    <Button label="Add Item" className="add-item-button" onClick={() => setVisibleAddItem(true)} />
+                    <Button label="Add Item" className="add-item-button" onClick={handleAddClick()} />
                 </div>
             </div>
 
@@ -285,7 +291,7 @@ const Home = () => {
                     </div>
                     <div className="p-field">
                         <label htmlFor="itemDate">Date</label>
-                        <input id="itemDate" type="datetime-local" defaultValue={getTodayAt1159PM()} className="p-inputtext p-component" value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)} />
+                        <input id="itemDate" type="datetime-local" className="p-inputtext p-component" value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)} />
                     </div>
                 </div>
             </Dialog>
