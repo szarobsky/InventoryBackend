@@ -26,14 +26,13 @@ const Home = () => {
     const location = useLocation();
     const { firebase_uid } = location.state || {};
 
-    setDisableButtons(true);
-
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user) {
                 navigate('/'); // Redirect to Landing page if not logged in
             }
         });
+        setDisableButtons(true);
 
         return () => unsubscribe();
     });
@@ -141,13 +140,6 @@ const Home = () => {
         setSelectedItem(item); // Store the item to be updated
         setNewItemName(item.name); // Set the name to the selected item
         setNewItemDate(item.date); // Set the date to the selected item
-        
-        // Ensure item is not null or undefined
-        if (!item) {
-            console.error("Selected item is null or undefined");
-            setDisableButtons(false);
-            return;
-        }
     };
 
     const handleUpdateSubmit = async () => {
