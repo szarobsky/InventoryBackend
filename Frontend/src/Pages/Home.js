@@ -124,6 +124,7 @@ const Home = () => {
 
             for (let i = 0; i < data.items.length; i++) {
                 data.items[i].date = convertToISODateTime(data.items[i].date);
+            }
 
             console.log("Add result:", data);
             setItems(data.items); // Update the state with the new item
@@ -192,6 +193,7 @@ const Home = () => {
 
         for (let i = 0; i < data.items.length; i++) {
             data.items[i].date = convertToISODateTime(data.items[i].date);
+        }
 
         console.log("Update result:", data);
         setItems(data.items); // Update the state with the new item
@@ -228,6 +230,7 @@ const Home = () => {
 
         for (let i = 0; i < data.items.length; i++) {
             data.items[i].date = convertToISODateTime(data.items[i].date);
+        }
 
         console.log("Result:", data);
         setItems(data.items); // Update the state with the new item
