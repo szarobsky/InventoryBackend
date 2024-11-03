@@ -297,7 +297,7 @@ const Home = () => {
                     </div>
                     <div className="p-field">
                         <label htmlFor="itemDate">Date</label>
-                        <input id="itemDate" type="datetime-local" className="p-inputtext p-component" value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)} />
+                        <input id="itemDate" type="datetime-local" className="p-inputtext p-component" value={convertToISODateTime(newItemDate)} onChange={(e) => setNewItemDate(e.target.value)} />
                     </div>
                 </div>
             </Dialog>
@@ -320,7 +320,7 @@ const Home = () => {
                                 id="updateItemDate"
                                 type="datetime-local"
                                 className="p-inputtext p-component"
-                                defaultValue={selectedItem ? selectedItem.date : ''}
+                                defaultValue={selectedItem ? convertToISODateTime(selectedItem.date) : ''}
                                 value={convertToISODateTime(newItemDate)} onChange={(e) => setNewItemDate(e.target.value)}
                             />
                         </div>
