@@ -11,10 +11,21 @@
 .landing-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     height: 100vh;
+    width: 100%;
     /* background-color: #333; Optional: Background color for better visibility */
     /* color: white; Optional: Text color for better visibility */
 
+}
+
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0px;
+    background-color: #f8f9fa;
 }
 
 .landing-center {
@@ -26,7 +37,6 @@
 }
 
 .landing-logo {
-    width: 500px; /* Adjust the width as needed */
     height: auto; /* Maintain aspect ratio */
     margin: 3rem; /* Optional: Space around the logo */
     border-radius: 25px;
@@ -54,4 +64,22 @@
     align-self: flex-start;
     margin-top: 5px; /* Optional: Space between the DataTable and the button */
     margin-bottom: 60px;
+}
+
+@media (max-width: 500px) {
+    .landing-logo {
+        width: 100%;
+    }
+}
+
+@media (min-width: 501px) {
+    .landing-logo {
+        width: 500px;
+    }
+}
+
+@media (max-width: 372px) {
+    .landing-mini-logo {
+        display: none;
+    }
 }

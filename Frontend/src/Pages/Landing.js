@@ -84,7 +84,7 @@ const Landing = () => {
             {/* Dialog for Our Goal */}
             <Dialog header="Our Goal" visible={visibleGoal} position={'left'} style={{ width: '50vw' }} onHide={() => setVisibleGoal(false)} draggable={false} resizable={false}>
                 <p className="m-0">
-                    Pantry Pal aims to provide a simple and easy to use inventory management system for people keep track of their soon-to-expire foods and ingredients.
+                    PantryPal aims to provide a simple and easy to use inventory management system for people keep track of their soon-to-expire foods and ingredients.
                 </p>
             </Dialog>
 
