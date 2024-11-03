@@ -87,6 +87,5 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'InventoryKH2024-backend'
-          slot-name: 'Production'
           package: release.zip
           
