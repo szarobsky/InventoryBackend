@@ -75,6 +75,7 @@ const Home = () => {
         const offset = now.getTimezoneOffset() * 60000;
         const adjustedDate = new Date(now.getTime() - offset);
         const str = adjustedDate.toISOString().slice(0, 16);
+        console.log("getTodayAt1159PM: ", str);
         return str; // Format to 'YYYY-MM-DDTHH:MM'
     };
 
