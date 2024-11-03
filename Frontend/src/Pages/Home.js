@@ -32,10 +32,8 @@ const Home = () => {
                 navigate('/'); // Redirect to Landing page if not logged in
             }
         });
-        setDisableButtons(true);
-
         return () => unsubscribe();
-    });
+    }, [navigate]);
 
     useEffect(() => {
         setDisableButtons(true);
