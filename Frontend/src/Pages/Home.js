@@ -74,9 +74,7 @@ const Home = () => {
         now.setHours(23, 59, 0, 0); // Set time to 11:59 PM
         const offset = now.getTimezoneOffset() * 60000;
         const adjustedDate = new Date(now.getTime() - offset);
-        const str = adjustedDate.toISOString().slice(0, 16);
-        console.log("getTodayAt1159PM: ", str);
-        return str; // Format to 'YYYY-MM-DDTHH:MM'
+        return adjustedDate.toISOString().slice(0, 16);; // Format to 'YYYY-MM-DDTHH:MM'
     };
 
     /*const initDateTime = () => {
@@ -128,6 +126,7 @@ const Home = () => {
     const handleAddClick = () => {
         setNewItemName(''); // Clear the input field
         setNewItemDate(getTodayAt1159PM()); // Set the date to today at 11:59 PM
+        setDisableButtons(true);
         setVisibleAddItem(true); // Open the dialog
     };
 
@@ -278,7 +277,7 @@ const Home = () => {
                         <Column field="date" header="Date" sortable></Column>
                         <Column body={actionBodyTemplate} header="Actions" />                    
                     </DataTable>
-                    <Button label="Add Item" className="add-item-button" onClick={handleAddClick()} />
+                    <Button label="Add Item" className="add-item-button" onClick={handleAddClick} />
                 </div>
             </div>
 
