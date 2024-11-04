@@ -49,10 +49,11 @@ const Home = () => {
                 const user = {'firebase_uid': firebase_uid}
                 try {
                     const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/user/', {
+                        method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'X-CSRFToken': csrfToken,
-                            'Cookie': `csrftoken=${csrfToken}` // include this if Django requires the token as a cookie
+                            'Cookie': `csrftoken=${csrfToken}` 
                         },
                         body: JSON.stringify(user),
                         credentials: 'include'  
@@ -117,7 +118,7 @@ const Home = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken,
-                    'Cookie': `csrftoken=${csrfToken}` // include this if Django requires the token as a cookie
+                    'Cookie': `csrftoken=${csrfToken}` 
                 },
                 body: JSON.stringify(newItem),
                 credentials: 'include'
@@ -184,7 +185,7 @@ const Home = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken,
-                    'Cookie': `csrftoken=${csrfToken}` // include this if Django requires the token as a cookie
+                    'Cookie': `csrftoken=${csrfToken}`
                 },
             },
             body: JSON.stringify(updateItem),
