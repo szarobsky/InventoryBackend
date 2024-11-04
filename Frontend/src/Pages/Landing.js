@@ -29,7 +29,7 @@ const Landing = () => {
         const  fetchCsrfToken = async () => {
             fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/api/csrf-token/', { credentials: 'include' })
                 .then(response => response.json())
-                .then(data => setCsrfToken(data.csrf_token))
+                .then(data => setCsrfToken(data.csrftoken))
                 .catch(error => console.error('Error fetching CSRF token:', error));
         };
         fetchCsrfToken();

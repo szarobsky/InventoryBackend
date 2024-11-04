@@ -9,9 +9,9 @@ def home(request):
 
 def get_csrf_token(request):
     if request.method == 'GET':
-        csrf_token = get_token(request)
-        print("CSRF Token:", csrf_token)  # Debugging line
-        return JsonResponse({'csrf_token': csrf_token})
+        csrftoken = get_token(request)
+        print("CSRF Token:", csrftoken)
+        return JsonResponse({'csrftoken': csrftoken})
     return JsonResponse({'error': 'Bad Request'}, status=400)
 
 def item(request):
