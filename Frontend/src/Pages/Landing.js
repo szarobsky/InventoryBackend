@@ -27,9 +27,7 @@ const Landing = () => {
     useEffect(() => {
         //Fetch CSRF token from backend
         const  fetchCsrfToken = async () => {
-            fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/api/csrf-token/', {
-                credentials: 'include'
-            })
+            fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/api/csrf-token/')
                 .then(response => response.json())
                 .then(data => setCsrfToken(data.csrf_token))
                 .catch(error => console.error('Error fetching CSRF token:', error));
@@ -58,7 +56,7 @@ const Landing = () => {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-CSRFToken': csrf,
-                                'Cookie': `csrftoken=${csrf}`
+                                'Cookie': `csrftoken=${csrf}`,
                             },
                             body: JSON.stringify(newUser),
                             credentials: 'include' 
