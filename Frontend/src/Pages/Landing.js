@@ -54,8 +54,8 @@ const Landing = () => {
                         const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/user/', {
                             method: 'POST',
                             headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRFToken': csrf
+                                'X-CSRFToken': csrf,
+                                'Content-Type': 'application/json'
                             },
                             body: JSON.stringify(newUser),
                             credentials: 'include' 
