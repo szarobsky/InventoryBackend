@@ -32,7 +32,7 @@ const Landing = () => {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Host': 'pantrypal.design',
+                                'Host': 'wwww.pantrypal.design',
                             },
                             body: JSON.stringify(newUser),
                         });
