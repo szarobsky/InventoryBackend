@@ -49,13 +49,14 @@ const Home = () => {
                 const user = {'firebase_uid': firebase_uid}
                 try {
                     const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/user/', {
-                        method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRFToken': csrfToken
+                            'X-CSRFToken': csrfToken,
+                            'Cookie': `csrftoken=${csrfToken}` // include this if Django requires the token as a cookie
                         },
                         body: JSON.stringify(user),
-                    });
+                        credentials: 'include'  
+                    });// important for cross-origin cookies
                     let data = await response.text();
 
                     //Attempt to parse as JSON
@@ -115,9 +116,11 @@ const Home = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken
+                    'X-CSRFToken': csrfToken,
+                    'Cookie': `csrftoken=${csrfToken}` // include this if Django requires the token as a cookie
                 },
                 body: JSON.stringify(newItem),
+                credentials: 'include'
             });
             let data = await response.text();
 
@@ -178,10 +181,14 @@ const Home = () => {
         const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                    'Cookie': `csrftoken=${csrfToken}` // include this if Django requires the token as a cookie
+                },
             },
             body: JSON.stringify(updateItem),
+            credentials: 'include'
         });
         let data = await response.text();
 

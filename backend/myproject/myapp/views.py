@@ -14,7 +14,6 @@ def get_csrf_token(request):
         return JsonResponse({'csrf_token': csrf_token})
     return JsonResponse({'error': 'Bad Request'}, status=400)
 
-@csrf_exempt
 def item(request):
     if request.method == 'POST':
         if not check_mongo_connection():
@@ -117,7 +116,6 @@ def item(request):
     else:
         return HttpResponseBadRequest("Only POST and PUT and DELETE requests are allowed")
     
-@csrf_exempt
 def user(request):
     if request.method == 'POST':
         if not check_mongo_connection():

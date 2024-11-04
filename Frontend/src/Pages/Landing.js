@@ -44,9 +44,11 @@ const Landing = () => {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-CSRFToken': csrfToken
+                                'X-CSRFToken': csrfToken,
+                                'Cookie': `csrftoken=${csrfToken}`
                             },
                             body: JSON.stringify(newUser),
+                            credentials: 'include' 
                         });
                         let data = await response.text();
 
