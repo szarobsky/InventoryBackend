@@ -75,9 +75,3 @@
         width: 500px;
     }
 }
-
-@media (max-width: 350px) {
-    .landing-mini-logo {
-        display: none;
-    }
-}

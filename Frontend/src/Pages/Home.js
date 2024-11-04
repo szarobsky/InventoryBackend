@@ -165,7 +165,7 @@ const Home = () => {
             setVisibleAddItem(false);
         } catch (error) {
             console.error("Error adding item:", error);
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Failed to add item', life: 3000 });
+            toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to add item: ', error], life: 3000 });
         }
     };
 
@@ -226,6 +226,9 @@ const Home = () => {
         } catch (error) {
             console.error('Error parsing JSON:', error);
             console.log('Response data:', data);
+            setDisableButtons(false);
+            toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to update item: ', error], life: 3000 });
+            return;
         }
         console.log("Update result:", data);
 
@@ -233,7 +236,6 @@ const Home = () => {
         setItems(data.items);
         toast.current.show({ severity: 'success', summary: 'Success', detail: 'Item updated successfully', life: 3000 });
         setDisableButtons(false);
-        setVisibleUpdateItem(false);
     };
 
     //Delete item from the database
@@ -270,6 +272,9 @@ const Home = () => {
         } catch (error) {
             console.error('Error parsing JSON:', error);
             console.log('Response data:', data);
+            setDisableButtons(false);
+            toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to delete item: ', error], life: 3000 });
+            return;
         }
         console.log("Delete result:", data);
 

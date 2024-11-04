@@ -20,17 +20,17 @@ const ThemeSwitcher = () => {
         console.log("Current theme is", curTheme);
         if (curTheme === '/themes/lara-light-blue/theme.css') {
             changeTheme(
-                curTheme, // current theme
-                '/themes/lara-dark-blue/theme.css', // new theme
-                'theme-link' // ID of the link element
+                curTheme,
+                '/themes/lara-dark-blue/theme.css',
+                'theme-link'
             );
             button.innerText = "Light Mode";
         }
         else if  (curTheme === '/themes/lara-dark-blue/theme.css') {
             changeTheme(
-                curTheme, // current theme
-                '/themes/lara-light-blue/theme.css', // new theme
-                'theme-link' // ID of the link element
+                curTheme, 
+                '/themes/lara-light-blue/theme.css',
+                'theme-link'
             );
             button.innerText = "Dark Mode";
         }

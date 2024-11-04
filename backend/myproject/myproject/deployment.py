@@ -5,7 +5,7 @@ from .settings import BASE_DIR
 ALLOWED_HOSTS = ['inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net', 'inventorykh2024-backend-fta8gwhqhwgqfchv.azurewebsites.net', 'pantrypal.design', 'www.pantrypal.design']
 CSRF_TRUSTED_ORIGINS = ['https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net', 'https://pantrypal.design', 'https://www.pantrypal.design']
 SECRET_KEY = os.environ['MY_SECRET_KEY']
-DEBUG = True #CHANGEEE
+DEBUG = False
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -25,7 +25,7 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'   
 SESSION_COOKIE_SAMESITE = 'None'
 
-CORS_ALLOW_ALL_ORIGINS = True #CHange
+CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOW_CREDENTIALS = True
 
