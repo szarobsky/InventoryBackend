@@ -63,7 +63,7 @@ const Home = () => {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRFToken': csrf, 
+                            'X-CSRFToken': csrf
                         },
                         body: JSON.stringify(user),
                         credentials: 'include'  
@@ -132,7 +132,7 @@ const Home = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': csrf,
+                    'X-CSRFToken': csrf
                 },
                 body: JSON.stringify(newItem),
                 credentials: 'include'
@@ -169,12 +169,12 @@ const Home = () => {
 
     //Open update dialog and set selected item
     const handleUpdateClick = async (item) => {
-        setVisibleUpdateItem(true); // Open update dialog
+        setVisibleUpdateItem(true);
         setDisableButtons(true);
         item.date = convertToISODateTime(item.date);
-        setSelectedItem(item); // Store the item to be updated
-        setNewItemName(item.name); // Set the name to the selected item
-        setNewItemDate(item.date); // Set the date to the selected item
+        setSelectedItem(item);
+        setNewItemName(item.name);
+        setNewItemDate(item.date); 
     };
 
     //Update item in the database
@@ -203,7 +203,7 @@ const Home = () => {
             headers: {
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': csrf,
+                    'X-CSRFToken': csrf
                 },
             },
             body: JSON.stringify(updateItem),
@@ -240,11 +240,15 @@ const Home = () => {
                 "date":  stringDate
             },
         };
+        let csrf = getCsrfToken();
+        if (csrf === null) {
+            csrf = csrfToken;
+        }
         const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
+                'X-CSRFToken': csrf
             },
             body: JSON.stringify(updateItem),
         });

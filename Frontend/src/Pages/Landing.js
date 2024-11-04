@@ -55,7 +55,7 @@ const Landing = () => {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-CSRFToken': csrf,
+                                'X-CSRFToken': csrf
                             },
                             body: JSON.stringify(newUser),
                             credentials: 'include' 
