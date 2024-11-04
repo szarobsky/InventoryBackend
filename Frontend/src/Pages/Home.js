@@ -95,6 +95,7 @@ const Home = () => {
                     setDisableButtons(false);
                 } catch (error) {
                     console.error("Error fetching items:", error);
+                    toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to fetch items: ', error], life: 3000 });
                 }
             };
         }
@@ -123,7 +124,7 @@ const Home = () => {
 
     //Add item to the database
     const addItem = async () => {
-        setDisableButtons(false);
+        setVisibleAddItem(false);
         try {
             let stringDate = convertDateTimeString(newItemDate);
             const newItem = {
@@ -156,15 +157,19 @@ const Home = () => {
             } catch (error) {
                 console.error('Error parsing JSON:', error);
                 console.log('Response data:', data); 
+                toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to add item: ', error], life: 3000 });
+                setDisableButtons(false);
+                return
             }
             console.log("Add result:", data);
 
             //Update items state with new item
             setItems(data.items);
             toast.current.show({ severity: 'success', summary: 'Success', detail: 'Item added successfully', life: 3000 });
-            setVisibleAddItem(false);
+            setDisableButtons(false);
         } catch (error) {
             console.error("Error adding item:", error);
+            setDisableButtons(false);
             toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to add item: ', error], life: 3000 });
         }
     };
