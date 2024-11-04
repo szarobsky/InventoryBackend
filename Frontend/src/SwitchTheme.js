@@ -12,24 +12,36 @@ const ThemeSwitcher = () => {
     const { changeTheme } = primeReactContext;
 
     //Function to handle theme change
-    const handleThemeChange = (newTheme) => {
+    const handleThemeChange = () => {
         // Change theme to the selected one
-        console.log("Changing theme to", newTheme);
-        changeTheme(
-            document.getElementById('theme-link').getAttribute('href'), // current theme
-            newTheme, // new theme
-            'theme-link' // ID of the link element
-        );
+        console.log("Changing theme");
+        let curTheme = document.getElementById('theme-link').getAttribute('href');
+        let button = document.getElementById('theme');
+        console.log("Current theme is", curTheme);
+        if (curTheme === '/themes/lara-light-blue/theme.css') {
+            changeTheme(
+                curTheme, // current theme
+                '/themes/lara-dark-blue/theme.css', // new theme
+                'theme-link' // ID of the link element
+            );
+            button.innerText = "Light Mode";
+        }
+        else if  (curTheme === '/themes/lara-dark-blue/theme.css') {
+            changeTheme(
+                curTheme, // current theme
+                '/themes/lara-light-blue/theme.css', // new theme
+                'theme-link' // ID of the link element
+            );
+            button.innerText = "Dark Mode";
+        }
+        
     };
 
     //Render the component
     return (
         <div>
-            <Button onClick={() => handleThemeChange('/themes/lara-light-blue/theme.css')} style={{marginRight:'10px', fontWeight:'bold'}}>
-                Light Theme
-            </Button>
-            <Button onClick={() => handleThemeChange('/themes/lara-dark-blue/theme.css')} style={{ fontWeight:'bold'}}>
-                Dark Theme
+            <Button id="theme" onClick={() => handleThemeChange()} style={{marginRight:'10px', fontWeight:'bold'}}>
+                Dark Mode
             </Button>
         </div>
     );
