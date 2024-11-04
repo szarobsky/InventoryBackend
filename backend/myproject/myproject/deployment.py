@@ -5,7 +5,9 @@ from .settings import BASE_DIR
 ALLOWED_HOSTS = ['inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net', 'inventorykh2024-backend-fta8gwhqhwgqfchv.azurewebsites.net', 'pantrypal.design', 'www.pantrypal.design']
 CSRF_TRUSTED_ORIGINS = ['https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net', 'https://pantrypal.design', 'https://www.pantrypal.design']
 SECRET_KEY = os.environ['MY_SECRET_KEY']
-DEBUG = False
+INSTALLED_APPS = [
+    'corsheaders',
+]
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -17,6 +19,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+DEBUG = False
 
 CSRF_COOKIE_NAME = 'csrftoken'  
 CSRF_COOKIE_HTTPONLY = False      

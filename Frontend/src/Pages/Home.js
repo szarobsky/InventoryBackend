@@ -68,7 +68,7 @@ const Home = () => {
                         },
                         body: JSON.stringify(user),
                         credentials: 'include'  
-                    });// important for cross-origin cookies
+                    });
                     let data = await response.text();
 
                     //Attempt to parse as JSON
