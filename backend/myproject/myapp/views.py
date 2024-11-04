@@ -8,8 +8,11 @@ def home(request):
     return HttpResponse("Welcome to the Home Page!")
 
 def get_csrf_token(request):
-    csrf_token = get_token(request)
-    return JsonResponse({'csrf_token': csrf_token})
+    if request.method == 'GET':
+        csrf_token = get_token(request)
+        print("CSRF Token:", csrf_token)  # Debugging line
+        return JsonResponse({'csrf_token': csrf_token})
+    return JsonResponse({'error': 'Bad Request'}, status=400)
 
 @csrf_exempt
 def item(request):

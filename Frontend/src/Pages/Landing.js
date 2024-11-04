@@ -19,11 +19,14 @@ const Landing = () => {
     const navigate = useNavigate(); 
 
     useEffect(() => {
-        // Fetch CSRF token from backend
-        fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/api/csrf-token/')
-            .then(response => response.json())
-            .then(data => setCsrfToken(data.csrf_token))
-            .catch(error => console.error('Error fetching CSRF token:', error));
+        //Fetch CSRF token from backend
+        const  fetchCsrfToken = async () => {
+            fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/api/csrf-token/')
+                .then(response => response.json())
+                .then(data => setCsrfToken(data.csrf_token))
+                .catch(error => console.error('Error fetching CSRF token:', error));
+        };
+        fetchCsrfToken();
     }, []);
 
     //Function to handle Google login
