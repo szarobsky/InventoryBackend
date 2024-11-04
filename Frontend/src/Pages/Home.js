@@ -211,10 +211,8 @@ const Home = () => {
         const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
             method: 'PUT',
             headers: {
-                headers: {
-                    'X-CSRFToken': csrf,
-                    'Content-Type': 'application/json'
-                },
+                'X-CSRFToken': csrf,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(updateItem),
             credentials: 'include'
