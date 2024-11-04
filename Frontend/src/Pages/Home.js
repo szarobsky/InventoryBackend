@@ -94,6 +94,7 @@ const Home = () => {
                     console.log("items:", data.items);
                     setDisableButtons(false);
                 } catch (error) {
+                    setDisableButtons(false);
                     console.error("Error fetching items:", error);
                     toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to fetch items: ', error], life: 3000 });
                 }
@@ -361,7 +362,7 @@ const Home = () => {
                     <Button label="Add Item" disabled={disableButton} className="add-item-button" onClick={handleAddClick} />
                 </div>
             </div>
-            <Dialog header="Add Item" visible={visibleAddItem} style={{ width: '50vw'}} onHide={() => {setVisibleAddItem(false); setDisableButtons(false);}} footer={footerContent} draggable={false} resizable={false}>
+            <Dialog header="Add Item" visible={visibleAddItem} style={{ width: '70vw'}} onHide={() => {setVisibleAddItem(false); setDisableButtons(false);}} footer={footerContent} draggable={false} resizable={false}>
                 <div className="p-fluid">
                     <div className="p-field">
                         <label htmlFor="itemName">Item Name</label>
@@ -373,7 +374,7 @@ const Home = () => {
                     </div>
                 </div>
             </Dialog>
-            <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '50vw'}} onHide={() => {setVisibleUpdateItem(false); setDisableButtons(false);}} footer={updateFooterContent} draggable={false} resizable={false}>
+            <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '70vw'}} onHide={() => {setVisibleUpdateItem(false); setDisableButtons(false);}} footer={updateFooterContent} draggable={false} resizable={false}>
                     <div className="p-fluid">
                         <div className="p-field">
                             <label htmlFor="updateItemName">Item Name</label>

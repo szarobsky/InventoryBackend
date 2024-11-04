@@ -15,6 +15,7 @@ import ThemeSwitcher from '../SwitchTheme';
 const Landing = () => {
     const [visibleGoal, setVisibleGoal] = useState(false);
     const [visibleAbout, setVisibleAbout] = useState(false);
+    const [visibleNotes, setVisibleNotes] = useState(false);
     const [csrfToken, setCsrfToken] = useState(''); 
     const navigate = useNavigate(); 
 
@@ -119,15 +120,16 @@ const Landing = () => {
                 <img src={Logo} alt="Logo" className="landing-logo"/>
                 <div>
                     <Button className='landing-button' onClick={() => setVisibleGoal(true)}>Our Goal</Button>
-                    <Button className='landing-button' onClick={() => setVisibleAbout(true)}>About us</Button>
+                    <Button className='landing-button' onClick={() => setVisibleNotes(true)}>Notes</Button>
+                    <Button className='landing-button' onClick={() => setVisibleAbout(true)}>About Us</Button>
                 </div>
             </div>
-            <Dialog header="Our Goal" visible={visibleGoal} position={'left'} style={{ width: '50vw' }} onHide={() => setVisibleGoal(false)} draggable={false} resizable={false}>
+            <Dialog header="Our Goal" visible={visibleGoal} position={'left'} style={{ width: '70vw' }} onHide={() => setVisibleGoal(false)} draggable={false} resizable={false}>
                 <p className="m-0">
                     Do you ever open your fridge or pantry and find that food you had forgotten about is now expired? PantryPal can help by providing a simple and easy to use inventory management system for people keep track of their soon-to-expire foods.
                 </p>
             </Dialog>
-            <Dialog header="About Us" visible={visibleAbout} position={'right'} style={{ width: '50vw' }} onHide={() => setVisibleAbout(false)} draggable={false} resizable={false}>
+            <Dialog header="About Us" visible={visibleAbout} position={'right'} style={{ width: '70vw' }} onHide={() => setVisibleAbout(false)} draggable={false} resizable={false}>
                 <p className="m-0">
                     This project was made by students of the University of Central Florida for the Knight Hacks VII hackathon in 2024.
                 </p>
@@ -136,6 +138,17 @@ const Landing = () => {
                 </p>
                 <p>
                     This project is now being continued on by Sean Zarobsky as a side project.
+                </p>
+            </Dialog>
+            <Dialog header="Notes" visible={visibleNotes} position={'top'} style={{ width: '70vw' }} onHide={() => setVisibleNotes(false)} draggable={false} resizable={false}>
+                <p className="m-0">
+                    PantryPal is not meant for businesses or any serious inventory management. It is meant for personal use only.
+                </p>
+                <p>
+                    In order to get PantryPal to work on Safari mobile, you must enable cross-site tracking. This is because we use cookies to store the CSRF token from the server. PantryPal has only been extensively tested on Google Chrome (Windows) and Safari (iOS).
+                </p>
+                <p>
+                    We (the developers) are not legally responsible for any lost data or any other issues that may arise from using PantryPal.
                 </p>
             </Dialog>
         </div>
