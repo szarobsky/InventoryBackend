@@ -52,6 +52,7 @@ const Home = () => {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Host': 'pantrypal.design',
                         },
                         body: JSON.stringify(user),
                     });
@@ -113,6 +114,7 @@ const Home = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Host': 'pantrypal.design',
                 },
                 body: JSON.stringify(newItem),
             });
@@ -176,6 +178,7 @@ const Home = () => {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Host': 'pantrypal.design',
             },
             body: JSON.stringify(updateItem),
         });
@@ -214,6 +217,7 @@ const Home = () => {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
+                'Host': 'pantrypal.design',
             },
             body: JSON.stringify(updateItem),
         });
