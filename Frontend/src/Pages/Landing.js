@@ -142,13 +142,10 @@ const Landing = () => {
             </Dialog>
             <Dialog header="Notes" visible={visibleNotes} position={'top'} style={{ width: '70vw' }} onHide={() => setVisibleNotes(false)} draggable={false} resizable={false}>
                 <p className="m-0">
-                    PantryPal is not meant for businesses or any serious inventory management. It is meant for personal use only.
+                We (the developers) are not legally responsible for any lost data or any other issues that may arise from using PantryPal.
                 </p>
                 <p>
                     In order to get PantryPal to work on Safari mobile, you must enable cross-site tracking. This is because we use cookies to store the CSRF token from the server. PantryPal has only been extensively tested on Google Chrome (Windows) and Safari (iOS).
-                </p>
-                <p>
-                    We (the developers) are not legally responsible for any lost data or any other issues that may arise from using PantryPal.
                 </p>
             </Dialog>
         </div>
