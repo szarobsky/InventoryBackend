@@ -63,8 +63,7 @@ const Home = () => {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRFToken': csrf,
-                            'Cookie': `csrftoken=${csrf}` 
+                            'X-CSRFToken': csrf, 
                         },
                         body: JSON.stringify(user),
                         credentials: 'include'  
@@ -134,7 +133,6 @@ const Home = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrf,
-                    'Cookie': `csrftoken=${csrf}` 
                 },
                 body: JSON.stringify(newItem),
                 credentials: 'include'
@@ -206,7 +204,6 @@ const Home = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrf,
-                    'Cookie': `csrftoken=${csrf}`
                 },
             },
             body: JSON.stringify(updateItem),

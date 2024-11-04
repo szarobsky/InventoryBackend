@@ -56,7 +56,6 @@ const Landing = () => {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-CSRFToken': csrf,
-                                'Cookie': `csrftoken=${csrf}`,
                             },
                             body: JSON.stringify(newUser),
                             credentials: 'include' 
