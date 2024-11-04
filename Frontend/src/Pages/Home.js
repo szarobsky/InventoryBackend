@@ -16,13 +16,14 @@ import ThemeSwitcher from '../SwitchTheme';
 //Home page component
 const Home = () => {
     const [disableButton, setDisableButtons] = useState(false)
-    const [visibleAddItem, setVisibleAddItem] = useState(false); // State for Add Item dialog
-    const [visibleUpdateItem, setVisibleUpdateItem] = useState(false); // State for Update Item dialog
-    const [selectedItem, setSelectedItem] = useState(null); // Store the selected item for update
-    const [items, setItems] = useState([]); // State to store items fetched from the server
-    const [newItemName, setNewItemName] = useState(''); // State for new item name
-    const [newItemDate, setNewItemDate] = useState(''); // State for new item date
-    const navigate = useNavigate(); // Initialize useNavigate hook
+    const [visibleAddItem, setVisibleAddItem] = useState(false);
+    const [visibleUpdateItem, setVisibleUpdateItem] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null); 
+    const [items, setItems] = useState([]); 
+    const [newItemName, setNewItemName] = useState(''); 
+    const [newItemDate, setNewItemDate] = useState('');
+    const [searchString, setSearchString] = useState('');
+    const navigate = useNavigate();
     const toast = useRef(null);
     const location = useLocation();
     const { firebase_uid, csrfToken } = location.state || {};
@@ -354,10 +355,17 @@ const Home = () => {
             <h1 style={{ textAlign: 'center' }}>PantryPal</h1>
             <div className='landing-center'>
                 <div className="datatable-container">
-                    <DataTable value={items} emptyMessage="No items">
+                    <input
+                        type="text"
+                        placeholder="Search item name"
+                        value={searchString}
+                        onChange={(e) => setSearchString(e.target.value)}
+                        style={{ marginBottom: '10px' }}
+                    />
+                    <DataTable value={items.filter(item => item.name.toLowerCase().includes(searchString.toLowerCase()))} emptyMessage="No items">
                         <Column field="name" header="Item"></Column>
                         <Column field="date" header="Date" sortable></Column>
-                        <Column body={actionBodyTemplate} header="Actions" />                    
+                        <Column body={actionBodyTemplate} header="Actions" />                 
                     </DataTable>
                     <Button label="Add Item" disabled={disableButton} className="add-item-button" onClick={handleAddClick} />
                 </div>
