@@ -77,7 +77,8 @@ const Home = () => {
             };
         }
         fetchItems();
-    }, [firebase_uid]);
+    }, [firebase_uid,  csrfToken]);
+
 
     //Get today's date at 11:59 PM
     const getTodayAt1159PM = () => {
