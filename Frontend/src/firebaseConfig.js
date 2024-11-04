@@ -13,6 +13,7 @@ const firebaseConfig = {
   
 const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
 const auth = getAuth(app);
 if (window.location.hostname === "localhost") {
     connectAuthEmulator(auth, "http://localhost:9099");
