@@ -3,35 +3,28 @@ import 'primereact/resources/primereact.min.css';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import './Landing.css'; // Custom CSS file
+import './Landing.css'; 
 import Logo from '../assets/Logo.png';
 import MiniLogo from '../assets/MiniLogo.png';
-import { auth, provider } from '../firebaseConfig'; // Firebase configuration
+import { auth, provider } from '../firebaseConfig';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import ThemeSwitcher from '../SwitchTheme'; // Adjust the path accordingly
+import ThemeSwitcher from '../SwitchTheme';
 
 //Landing page component
 const Landing = () => {
     const [visibleGoal, setVisibleGoal] = useState(false);
     const [visibleAbout, setVisibleAbout] = useState(false);
-    const navigate = useNavigate(); // Initialize useNavigate hook
+    const [csrfToken, setCsrfToken] = useState(''); 
+    const navigate = useNavigate(); 
 
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
+    useEffect(() => {
+        // Fetch CSRF token from backend
+        fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/api/csrf-token/')
+            .then(response => response.json())
+            .then(data => setCsrfToken(data.csrfToken))
+            .catch(error => console.error('Error fetching CSRF token:', error));
+    }, []);
 
     //Function to handle Google login
     const handleGoogleLogin = async () => {
@@ -48,7 +41,7 @@ const Landing = () => {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-CSRFToken': getCookie('csrftoken')
+                                'X-CSRFToken': csrfToken
                             },
                             body: JSON.stringify(newUser),
                         });
@@ -70,7 +63,7 @@ const Landing = () => {
             getUser();
             
             //Redirect to home page
-            navigate('/home', { state: {firebase_uid }});
+            navigate('/home', { state: {firebase_uid, csrfToken} });
         } catch (error) {
         console.error("Error signing in with Google:", error);
         }
