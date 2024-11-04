@@ -27,6 +27,22 @@ const Home = () => {
     const location = useLocation();
     const { firebase_uid } = location.state || {};
 
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
     //Redirect to landing page if not logged in
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -113,6 +129,7 @@ const Home = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
                 },
                 body: JSON.stringify(newItem),
             });
@@ -176,6 +193,7 @@ const Home = () => {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
             },
             body: JSON.stringify(updateItem),
         });
@@ -214,7 +232,7 @@ const Home = () => {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'Host': 'wwww.pantrypal.design'
+                'X-CSRFToken': getCookie('csrftoken')
             },
             body: JSON.stringify(updateItem),
         });
