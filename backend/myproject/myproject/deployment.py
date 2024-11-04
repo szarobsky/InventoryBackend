@@ -3,7 +3,7 @@ from .settings import *
 from .settings import BASE_DIR
 
 ALLOWED_HOSTS = ['https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net', 'pantrypal.design', 'www.pantrypal.design']
-CRSF_TRUSTED_ORIGINS = ['https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net', 'https://pantrypal.design', 'https://www.pantrypal.design']
+CRSF_TRUSTED_ORIGINS = ['0.0.0.0', 'https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net', 'https://pantrypal.design', 'https://www.pantrypal.design']
 SECRET_KEY = os.environ['MY_SECRET_KEY']
 DEBUG = False
 MIDDLEWARE = [
