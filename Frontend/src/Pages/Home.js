@@ -259,6 +259,7 @@ const Home = () => {
                 'X-CSRFToken': csrf
             },
             body: JSON.stringify(updateItem),
+            credentials: 'include'
         });
         let data = await response.text();
 
