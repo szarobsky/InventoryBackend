@@ -18,6 +18,12 @@ const Landing = () => {
     const [csrfToken, setCsrfToken] = useState(''); 
     const navigate = useNavigate(); 
 
+    function getCsrfToken() {
+        const cookies = document.cookie.split('; ');
+        const csrfCookie = cookies.find(cookie => cookie.startsWith('csrftoken='));
+        return csrfCookie ? csrfCookie.split('=')[1] : null;
+    }
+
     useEffect(() => {
         //Fetch CSRF token from backend
         const  fetchCsrfToken = async () => {
@@ -34,8 +40,13 @@ const Landing = () => {
         try {
             const result = await signInWithPopup(auth, provider);
             let user = result.user;
-            const firebase_uid = user.uid; 
+            const firebase_uid = user.uid;  
             console.log("Firebase UID:", firebase_uid);
+            let csrf = getCsrfToken();
+            if (csrf === null) {
+                csrf = csrfToken;
+            }
+            console.log("CSRF Token:", csrf);
             const getUser = async () => {
                 if (firebase_uid) {
                     try {
@@ -44,8 +55,8 @@ const Landing = () => {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-CSRFToken': csrfToken,
-                                'Cookie': `csrftoken=${csrfToken}`
+                                'X-CSRFToken': csrf,
+                                'Cookie': `csrftoken=${csrf}`
                             },
                             body: JSON.stringify(newUser),
                             credentials: 'include' 

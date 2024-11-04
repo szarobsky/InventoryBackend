@@ -27,6 +27,12 @@ const Home = () => {
     const location = useLocation();
     const { firebase_uid, csrfToken } = location.state || {};
 
+    function getCsrfToken() {
+        const cookies = document.cookie.split('; ');
+        const csrfCookie = cookies.find(cookie => cookie.startsWith('csrftoken='));
+        return csrfCookie ? csrfCookie.split('=')[1] : null;
+    }
+
     //Redirect to landing page if not logged in
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -47,13 +53,18 @@ const Home = () => {
         const fetchItems = async () => {
             if (firebase_uid) {
                 const user = {'firebase_uid': firebase_uid}
+                let csrf = getCsrfToken();
+                if (csrf === null) {
+                    csrf = csrfToken;
+                }
+                console.log("CSRF Token:", csrf);
                 try {
                     const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/user/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRFToken': csrfToken,
-                            'Cookie': `csrftoken=${csrfToken}` 
+                            'X-CSRFToken': csrf,
+                            'Cookie': `csrftoken=${csrf}` 
                         },
                         body: JSON.stringify(user),
                         credentials: 'include'  
@@ -113,12 +124,17 @@ const Home = () => {
                     "date":  stringDate
                 }
             };
+            let csrf = getCsrfToken();
+            if (csrf === null) {
+                csrf = csrfToken;
+            }
+            console.log("CSRF Token:", csrf);
             const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
-                    'Cookie': `csrftoken=${csrfToken}` 
+                    'X-CSRFToken': csrf,
+                    'Cookie': `csrftoken=${csrf}` 
                 },
                 body: JSON.stringify(newItem),
                 credentials: 'include'
@@ -179,13 +195,18 @@ const Home = () => {
                 "date":  stringDate
             },
         };
+        let csrf = getCsrfToken();
+        if (csrf === null) {
+            csrf = csrfToken;
+        }
+        console.log("CSRF Token:", csrf);
         const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
             method: 'PUT',
             headers: {
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
-                    'Cookie': `csrftoken=${csrfToken}`
+                    'X-CSRFToken': csrf,
+                    'Cookie': `csrftoken=${csrf}`
                 },
             },
             body: JSON.stringify(updateItem),
