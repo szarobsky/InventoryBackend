@@ -125,8 +125,31 @@ const Home = () => {
         return str.substring(0, 10) + " " + str.substring(11)
     };
 
+    //Validate inputs for adding or updating an item
+    const validateInputs = () => {
+        if (!newItemName.trim()) {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Item name cannot be empty', life: 3000 });
+            return false;
+        }
+        if (!newItemDate) {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Date cannot be empty', life: 3000 });
+            return false;
+        }
+        if (!newItemDate) {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Date cannot be empty', life: 3000 });
+            return false;
+        }
+        const date = new Date(newItemDate);
+        if (isNaN(date.getTime())) {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Invalid date format', life: 3000 });
+            return false;
+        }
+        return true;
+    };
+
     //Add item to the database
     const addItem = async () => {
+        if (!validateInputs()) return;
         setVisibleAddItem(false);
         try {
             let stringDate = convertDateTimeString(newItemDate);
@@ -231,7 +254,8 @@ const Home = () => {
 
     //Update item in the database
     const updateItem = async () => {
-        setVisibleUpdateItem(false)
+        if (!validateInputs()) return;
+        setVisibleUpdateItem(false);
         let stringDate = convertDateTimeString(newItemDate);
         let oldStringDate = convertDateTimeString(selectedItem.date);
         const updateItem = {
