@@ -353,8 +353,8 @@ const Home = () => {
         }
         return (
             <>
-                <Button label="Update" disabled={disableButton} onClick={() => handleUpdateClick(rowData)} style={{ marginRight: '5px' }} />
-                <Button label="Delete" disabled={disableButton} onClick={() => deleteItem(rowData)} />
+                <Button label="Update" disabled={disableButton} onClick={() => handleUpdateClick(rowData)} style={{ marginRight: '5px', height: '25px'}} />
+                <Button label="Delete" disabled={disableButton} onClick={() => deleteItem(rowData)} style={{height: '25px'}} />
             </>
         );
     };
