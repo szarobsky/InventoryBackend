@@ -53,12 +53,10 @@ const Landing = () => {
             const result = await signInWithPopup(auth, provider);
             let user = result.user;
             const firebase_uid = user.uid;  
-            console.log("Firebase UID:", firebase_uid);
             let csrf = getCookie('csrftoken')
             if (csrf === null) {
                 csrf = csrfToken;
             }
-            console.log("CSRF Token:", csrf);
             const getUser = async () => {
                 if (firebase_uid) {
                     try {
@@ -80,7 +78,6 @@ const Landing = () => {
                             data = jsonData;
                         } catch (error) {
                             console.error('Error parsing JSON:', error);
-                            console.log('Response data:', data);
                         }
                     } catch (error) {
                         console.error("Error fetching items:", error);

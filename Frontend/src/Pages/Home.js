@@ -71,7 +71,6 @@ const Home = () => {
                 if (csrf === null) {
                     csrf = csrfToken;
                 }
-                console.log("CSRF Token:", csrf);
                 try {
                     const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/user/', {
                         method: 'POST',
@@ -90,12 +89,10 @@ const Home = () => {
                         data = jsonData;
                     } catch (error) {
                         console.error('Error parsing JSON:', error);
-                        console.log('Response data:', data);
                     }
 
                     //Update items state with fetched items
                     setItems(data.items);
-                    console.log("items:", data.items);
                     setDisableButtons(false);
                 } catch (error) {
                     setDisableButtons(false);
@@ -143,7 +140,6 @@ const Home = () => {
             if (csrf === null) {
                 csrf = csrfToken;
             }
-            console.log("CSRF Token:", csrf);
             const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
                 method: 'POST',
                 headers: {
@@ -160,13 +156,11 @@ const Home = () => {
                 const jsonData = JSON.parse(data);
                 data = jsonData;
             } catch (error) {
-                console.error('Error parsing JSON:', error);
-                console.log('Response data:', data); 
+                console.error('Error parsing JSON:', error); 
                 toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to add item: ', error], life: 3000 });
                 setDisableButtons(false);
                 return
             }
-            console.log("Add result:", data);
 
             //Update items state with new item
             setItems(data.items);
@@ -205,7 +199,6 @@ const Home = () => {
             if (csrf === null) {
                 csrf = csrfToken;
             }
-            console.log("CSRF Token:", csrf);
             const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/recipe/', {
                 method: 'POST',
                 headers: {
@@ -223,9 +216,7 @@ const Home = () => {
                 data = jsonData;
             } catch (error) {
                 console.error('Error parsing JSON:', error);
-                console.log('Response data:', data);
             }
-            console.log(data);
             setRecipe(marked(data, { sanitize: true }));
             setVisibleRecipe(true);
         } catch (error) {
@@ -254,7 +245,6 @@ const Home = () => {
         if (csrf === null) {
             csrf = csrfToken;
         }
-        console.log("CSRF Token:", csrf);
         const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/item/', {
             method: 'PUT',
             headers: {
@@ -272,12 +262,10 @@ const Home = () => {
             data = jsonData;
         } catch (error) {
             console.error('Error parsing JSON:', error);
-            console.log('Response data:', data);
             setDisableButtons(false);
             toast.current.show({ severity: 'error', summary: 'Error', detail: `Failed to update item: ${error.message}`, life: 3000 });
             return;
         }
-        console.log("Update result:", data);
 
         //Update items state with updated item
         setItems(data.items);
@@ -318,12 +306,10 @@ const Home = () => {
             data = jsonData;
         } catch (error) {
             console.error('Error parsing JSON:', error);
-            console.log('Response data:', data);
             setDisableButtons(false);
             toast.current.show({ severity: 'error', summary: 'Error', detail: `Failed to delete item: ${error.message}`, life: 3000 });
             return;
         }
-        console.log("Delete result:", data);
 
         //Update items state with updated items
         setItems(data.items);
@@ -333,7 +319,6 @@ const Home = () => {
 
     //Action body template for the DataTable
     const actionBodyTemplate = (rowData) => {
-        console.log("rowData in actionBodyTemplate:", rowData);
         if (!rowData) {
             console.error("rowData is null or undefined");
             return null;
