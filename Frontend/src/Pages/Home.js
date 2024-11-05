@@ -381,7 +381,7 @@ const Home = () => {
     return (
         <div>
             <Toolbar start={startContent} end={endContent} className="toolbar" />
-            <h1 style={{ textAlign: 'center' }}>PantryPal</h1>
+            <h1 className="header">PantryPal</h1>
             <div className='landing-center'>
                 <div className="datatable-container">
                     <input
@@ -399,7 +399,7 @@ const Home = () => {
                     <div class="button-container">
                         <Button label="Add Item" disabled={disableButton} className="add-item-button" onClick={handleAddClick} />
                         <Button label="Generate Recipe" disabled={disableButton} className="add-item-button" onClick={() => generateRecipe(meal)}/>
-                        <select value={meal} onChange={(e) => setMeal(e.target.value)} style={{ marginBottom: '10px' }}>
+                        <select value={meal} onChange={(e) => setMeal(e.target.value)} className="add-item-button">
                             <option value="meal">Meal</option>
                             <option value="breakfast">Breakfast</option>
                             <option value="brunch">Brunch</option>
