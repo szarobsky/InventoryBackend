@@ -225,7 +225,8 @@ const Home = () => {
                 console.error('Error parsing JSON:', error);
                 console.log('Response data:', data);
             }
-            setRecipe(marked(data.response, { sanitize: true }));
+            console.log(data);
+            setRecipe(marked(data, { sanitize: true }));
             setVisibleRecipe(true);
         } catch (error) {
             console.error("Error fetching recipe:", error);
