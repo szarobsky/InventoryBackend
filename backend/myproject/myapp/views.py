@@ -1,11 +1,10 @@
 from django.http import JsonResponse, HttpResponse, HttpResponseServerError, HttpResponseBadRequest
 from django.middleware.csrf import get_token
-from .utils import get_mongo_db, check_mongo_connection
+from .utils import get_mongo_db, check_mongo_connection, get_openai_api_key
 import openai
 import json
-from django.conf import settings
 
-openai.api_key = settings.OPENAI_API_KEY
+openai.api_key = get_openai_api_key()
 
 def home(request):
     return HttpResponse("Welcome to the Home Page!")

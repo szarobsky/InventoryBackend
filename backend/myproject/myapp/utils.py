@@ -2,6 +2,9 @@ from pymongo import MongoClient
 from decouple import config
 from urllib.parse import urlparse
 
+def get_openai_api_key():
+    return config('OPENAI_API_KEY')
+
 #Function to get the MongoDB database
 def get_mongo_db():
     mongo_uri = config('MONGO_DB_URI')
