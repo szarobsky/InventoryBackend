@@ -48,6 +48,44 @@ const Home = () => {
         return cookieValue;
     }
 
+    const fetchItems = async () => {
+        if (firebase_uid) {
+            const user = {'firebase_uid': firebase_uid}
+            let csrf = getCookie('csrftoken')
+            if (csrf === null) {
+                csrf = csrfToken;
+            }
+            try {
+                const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/user/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrf,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(user),
+                    credentials: 'include'  
+                });
+                let data = await response.text();
+
+                //Attempt to parse as JSON
+                try {
+                    const jsonData = JSON.parse(data);
+                    data = jsonData;
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
+
+                //Update items state with fetched items
+                setItems(data.items);
+                setDisableButtons(false);
+            } catch (error) {
+                setDisableButtons(false);
+                console.error("Error fetching items:", error);
+                toast.current.show({ severity: 'error', summary: 'Error', detail: `Failed to fetch items: ${error.message}`, life: 3000 });
+            }
+        };
+    }
+
     //Redirect to landing page if not logged in
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -65,43 +103,6 @@ const Home = () => {
 
     //Fetch items for user
     useEffect(() => {
-        const fetchItems = async () => {
-            if (firebase_uid) {
-                const user = {'firebase_uid': firebase_uid}
-                let csrf = getCookie('csrftoken')
-                if (csrf === null) {
-                    csrf = csrfToken;
-                }
-                try {
-                    const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/user/', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': csrf,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(user),
-                        credentials: 'include'  
-                    });
-                    let data = await response.text();
-
-                    //Attempt to parse as JSON
-                    try {
-                        const jsonData = JSON.parse(data);
-                        data = jsonData;
-                    } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                    }
-
-                    //Update items state with fetched items
-                    setItems(data.items);
-                    setDisableButtons(false);
-                } catch (error) {
-                    setDisableButtons(false);
-                    console.error("Error fetching items:", error);
-                    toast.current.show({ severity: 'error', summary: 'Error', detail: `Failed to fetch items: ${error.message}`, life: 3000 });
-                }
-            };
-        }
         fetchItems();
     }, [firebase_uid,  csrfToken]);
 
@@ -448,7 +449,7 @@ const Home = () => {
                     </div>
                 </div>
             </Dialog>
-            <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '70vw'}} onHide={() => {setSelectedItem({name: selectedItem.name, date: convertDateTimeString(selectedItem.date)}); setVisibleUpdateItem(false); setDisableButtons(false);}} footer={updateFooterContent} draggable={false} resizable={false}>
+            <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '70vw'}} onHide={() => {fetchItems(); setVisibleUpdateItem(false); setDisableButtons(false);}} footer={updateFooterContent} draggable={false} resizable={false}>
                 <div className="p-fluid">
                     <div className="p-field">
                         <label htmlFor="updateItemName">Item Name</label>
