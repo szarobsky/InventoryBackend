@@ -40,7 +40,7 @@ def recipe(request):
             items = user.get('items', [])
 
             #The user's items are used to generate a recipe
-            question = "Please generate a recipe for me. These are the ingredients I have in my kitchen: "
+            question = "Please generate a " + data.get('meal') + " recipe for me. These are the ingredients I have in my kitchen: "
             if len(items) == 0:
                 return HttpResponseBadRequest("No items to generate recipe from")
             for item in items:

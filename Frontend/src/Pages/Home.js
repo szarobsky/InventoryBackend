@@ -26,6 +26,7 @@ const Home = () => {
     const [newItemDate, setNewItemDate] = useState('');
     const [searchString, setSearchString] = useState('');
     const [recipe,  setRecipe] = useState('');
+    const [meal,  setMeal] = useState('meal');
     const navigate = useNavigate();
     const toast = useRef(null);
     const location = useLocation();
@@ -192,9 +193,10 @@ const Home = () => {
     };
 
     //Generate a recipe based on the items in the database
-    const generateRecipe = async () => {
+    const generateRecipe = async (meal) => {
         try {
-            const user = {'firebase_uid': firebase_uid};
+            setDisableButtons(true);
+            const req = {'firebase_uid': firebase_uid, 'meal': meal};
             let csrf = getCookie('csrftoken');
             if (csrf === null) {
                 csrf = csrfToken;
@@ -205,7 +207,7 @@ const Home = () => {
                     'X-CSRFToken': csrf,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(user),
+                body: JSON.stringify(req),
                 credentials: 'include'  
             });
             let data = await response.text();
@@ -218,9 +220,11 @@ const Home = () => {
                 console.error('Error parsing JSON:', error);
             }
             setRecipe(marked(data, { sanitize: true }));
+            setDisableButtons(false);
             setVisibleRecipe(true);
         } catch (error) {
             console.error("Error fetching recipe:", error);
+            setDisableButtons(false);
             toast.current.show({ severity: 'error', summary: 'Error', detail: `Failed to fetch recipe: ${error.message}`, life: 3000 });
         }
     };
@@ -394,7 +398,16 @@ const Home = () => {
                     </DataTable>
                     <div class="button-container">
                         <Button label="Add Item" disabled={disableButton} className="add-item-button" onClick={handleAddClick} />
-                        <Button label="Generate Recipe" disabled={disableButton} className="add-item-button" onClick={generateRecipe}/>
+                        <Button label="Generate Recipe" disabled={disableButton} className="add-item-button" onClick={generateRecipe(meal)}/>
+                        <input type="select" value={meal} onChange={(e) => setMeal(e.target.value)} style={{ marginBottom: '10px' }}>
+                            <option value="meal">Meal</option>
+                            <option value="breakfast">Breakfast</option>
+                            <option value="brunch">Brunch</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="snack">Snack</option>
+                            <option value="dinner">Dinner</option>
+                            <option value="dessert">Dessert</option>
+                        </input>
                     </div>
                 </div>
             </div>
