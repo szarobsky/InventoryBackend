@@ -31,13 +31,13 @@ const Home = () => {
     const location = useLocation();
     const { firebase_uid, csrfToken } = location.state || {};
 
+    //Function to get a cookie by name
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
             const cookies = document.cookie.split(';');
             for (let i = 0; i < cookies.length; i++) {
                 const cookie = cookies[i].trim();
-                // Check if this cookie string begins with the name we want
                 if (cookie.substring(0, name.length + 1) === (name + '=')) {
                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                     break;
@@ -181,10 +181,10 @@ const Home = () => {
 
     //Open add item dialog and set date to today at 11:59 PM
     const handleAddClick = () => {
-        setNewItemName(''); // Clear the input field
-        setNewItemDate(getTodayAt1159PM()); // Set the date to today at 11:59 PM
+        setNewItemName('');
+        setNewItemDate(getTodayAt1159PM()); 
         setDisableButtons(true);
-        setVisibleAddItem(true); // Open the dialog
+        setVisibleAddItem(true); 
     };
 
     //Open update dialog and set selected item
@@ -356,10 +356,10 @@ const Home = () => {
     //Logout function
     const handleLogout = async () => {
         try {
-            await signOut(auth); // Sign out the user from Firebase
-            navigate('/'); // Redirect to the landing page
+            await signOut(auth); 
+            navigate('/');
         } catch (error) {
-            console.error("Error signing out:", error); // Handle errors
+            console.error("Error signing out:", error);
         }
     };
 

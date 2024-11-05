@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from decouple import config
 from urllib.parse import urlparse
 
+#Function to get the OpenAI API key
 def get_openai_api_key():
     return config('OPENAI_API_KEY')
 

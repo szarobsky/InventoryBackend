@@ -3,7 +3,7 @@
 import os
 import sys
 
-
+#Runs the administrative tasks
 def main():
     """Run administrative tasks."""
     settings_module = 'myproject.deployment' if 'WEBSITE_HOSTNAME' in os.environ else 'myproject.settings'
@@ -18,6 +18,6 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
-
+#Runs the main function
 if __name__ == '__main__':
     main()
