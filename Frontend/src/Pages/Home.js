@@ -24,6 +24,7 @@ const Home = () => {
     const [newItemName, setNewItemName] = useState(''); 
     const [newItemDate, setNewItemDate] = useState('');
     const [searchString, setSearchString] = useState('');
+    const [recipe,  setRecipe] = useState('');
     const navigate = useNavigate();
     const toast = useRef(null);
     const location = useLocation();
@@ -223,7 +224,7 @@ const Home = () => {
                 console.error('Error parsing JSON:', error);
                 console.log('Response data:', data);
             }
-            document.getElementById("recipe").innerText = data.response;
+            setRecipe(data.response);
             setVisibleRecipe(true);
         } catch (error) {
             console.error("Error fetching recipe:", error);
@@ -404,7 +405,7 @@ const Home = () => {
                         <Column field="date" header="Date" sortable></Column>
                         <Column body={actionBodyTemplate} header="Actions" />                 
                     </DataTable>
-                    <div style={{alignItems: 'horizontal'}}>
+                    <div class="button-container">
                         <Button label="Add Item" disabled={disableButton} className="add-item-button" onClick={handleAddClick} />
                         <Button label="Generate Recipe" disabled={disableButton} className="add-item-button" onClick={generateRecipe}/>
                     </div>
@@ -449,7 +450,7 @@ const Home = () => {
             <Dialog header="Recipe" visible={visibleRecipe} style={{ width: '70vw'}} onHide={() => {setVisibleRecipe(false);}} draggable={false} resizable={false}>
                 <div className="p-fluid">
                     <div className="p-field">
-                        <p id="recipe">
+                        <p value={recipe}>
                         </p>
                     </div>
                 </div>
