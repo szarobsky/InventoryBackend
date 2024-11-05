@@ -398,7 +398,7 @@ const Home = () => {
                     </DataTable>
                     <div class="button-container">
                         <Button label="Add Item" disabled={disableButton} className="add-item-button" onClick={handleAddClick} />
-                        <Button label="Generate Recipe" disabled={disableButton} className="add-item-button" onClick={generateRecipe(meal)}/>
+                        <Button label="Generate Recipe" disabled={disableButton} className="add-item-button" onClick={() => generateRecipe(meal)}/>
                         <select value={meal} onChange={(e) => setMeal(e.target.value)} style={{ marginBottom: '10px' }}>
                             <option value="meal">Meal</option>
                             <option value="breakfast">Breakfast</option>
