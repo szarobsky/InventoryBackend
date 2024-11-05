@@ -448,7 +448,7 @@ const Home = () => {
                     </div>
                 </div>
             </Dialog>
-            <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '70vw'}} onHide={() => {setVisibleUpdateItem(false); setDisableButtons(false);}} footer={updateFooterContent} draggable={false} resizable={false}>
+            <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '70vw'}} onHide={() => {setSelectedItem({name: selectedItem.name, date: convertDateTimeString(selectedItem.date)}); setVisibleUpdateItem(false); setDisableButtons(false);}} footer={updateFooterContent} draggable={false} resizable={false}>
                 <div className="p-fluid">
                     <div className="p-field">
                         <label htmlFor="updateItemName">Item Name</label>
