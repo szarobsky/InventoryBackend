@@ -451,7 +451,9 @@ const Home = () => {
             </Dialog>
             <Dialog header="Recipe" visible={visibleRecipe} style={{ width: '70vw'}} onHide={() => {setVisibleRecipe(false);}} draggable={false} resizable={false}>
                 <div className="p-fluid">
-                    <div className="p-field">{recipe}</div>
+                    <div className="p-field">
+                        <div dangerouslySetInnerHTML={{ __html: recipe }} />
+                    </div>
                 </div>
             </Dialog>
             <Toast ref={toast} />
