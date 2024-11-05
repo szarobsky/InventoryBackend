@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { marked } from 'marked';
 import 'primereact/resources/primereact.min.css';
 import { Toolbar } from 'primereact/toolbar';
@@ -48,10 +48,11 @@ const Home = () => {
         return cookieValue;
     }
 
-    const fetchItems = async () => {
+    //Function to fetch items for the user
+    const fetchItems = useCallback(async () => {
         if (firebase_uid) {
-            const user = {'firebase_uid': firebase_uid}
-            let csrf = getCookie('csrftoken')
+            const user = {'firebase_uid': firebase_uid};
+            let csrf = getCookie('csrftoken');
             if (csrf === null) {
                 csrf = csrfToken;
             }
@@ -66,7 +67,7 @@ const Home = () => {
                     credentials: 'include'  
                 });
                 let data = await response.text();
-
+    
                 //Attempt to parse as JSON
                 try {
                     const jsonData = JSON.parse(data);
@@ -74,7 +75,7 @@ const Home = () => {
                 } catch (error) {
                     console.error('Error parsing JSON:', error);
                 }
-
+    
                 //Update items state with fetched items
                 setItems(data.items);
                 setDisableButtons(false);
@@ -83,8 +84,8 @@ const Home = () => {
                 console.error("Error fetching items:", error);
                 toast.current.show({ severity: 'error', summary: 'Error', detail: `Failed to fetch items: ${error.message}`, life: 3000 });
             }
-        };
-    }
+        }
+    }, [firebase_uid, csrfToken]);
 
     //Redirect to landing page if not logged in
     useEffect(() => {
@@ -104,7 +105,7 @@ const Home = () => {
     //Fetch items for user
     useEffect(() => {
         fetchItems();
-    }, [firebase_uid,  csrfToken, fetchItems]);
+    }, [fetchItems]);
 
 
     //Get today's date at 11:59 PM
