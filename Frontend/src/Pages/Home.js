@@ -135,13 +135,14 @@ const Home = () => {
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Date cannot be empty', life: 3000 });
             return false;
         }
-        if (!newItemDate) {
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Date cannot be empty', life: 3000 });
-            return false;
-        }
         const date = new Date(newItemDate);
         if (isNaN(date.getTime())) {
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Invalid date format', life: 3000 });
+            return false;
+        }
+        const year = date.getFullYear().toString();
+        if (year.length !== 4) {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Year must be 4 digits', life: 3000 });
             return false;
         }
         return true;
