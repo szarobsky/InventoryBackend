@@ -104,7 +104,7 @@ const Home = () => {
     //Fetch items for user
     useEffect(() => {
         fetchItems();
-    }, [firebase_uid,  csrfToken]);
+    }, [firebase_uid,  csrfToken, fetchItems]);
 
 
     //Get today's date at 11:59 PM
