@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { marked } from 'marked';
 import 'primereact/resources/primereact.min.css';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
@@ -224,7 +225,7 @@ const Home = () => {
                 console.error('Error parsing JSON:', error);
                 console.log('Response data:', data);
             }
-            setRecipe(data.response);
+            setRecipe(marked(data.response, { sanitize: true }));
             setVisibleRecipe(true);
         } catch (error) {
             console.error("Error fetching recipe:", error);
@@ -450,8 +451,7 @@ const Home = () => {
             <Dialog header="Recipe" visible={visibleRecipe} style={{ width: '70vw'}} onHide={() => {setVisibleRecipe(false);}} draggable={false} resizable={false}>
                 <div className="p-fluid">
                     <div className="p-field">
-                        <p value={recipe}>
-                        </p>
+                        <p>{recipe}</p>
                     </div>
                 </div>
             </Dialog>
