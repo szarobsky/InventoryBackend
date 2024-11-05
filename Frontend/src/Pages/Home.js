@@ -223,7 +223,7 @@ const Home = () => {
                 console.error('Error parsing JSON:', error);
                 console.log('Response data:', data);
             }
-            document.getElementById("recipe").innerHTML = data.response;
+            document.getElementById("recipe").innerText = data.response;
             setVisibleRecipe(true);
         } catch (error) {
             console.error("Error fetching recipe:", error);
@@ -405,7 +405,7 @@ const Home = () => {
                         <Column body={actionBodyTemplate} header="Actions" />                 
                     </DataTable>
                     <Button label="Add Item" disabled={disableButton} className="add-item-button" onClick={handleAddClick} />
-                    <Button label="Generate Recipe" disabled={disableButton} className="add-item-button" onClick={generateRecipe}>Generate Recipe</Button>
+                    <Button label="Generate Recipe" disabled={disableButton} className="add-item-button" onClick={generateRecipe}/>
                 </div>
             </div>
             <Dialog header="Add Item" visible={visibleAddItem} style={{ width: '70vw'}} onHide={() => {setVisibleAddItem(false); setDisableButtons(false);}} footer={footerContent} draggable={false} resizable={false}>

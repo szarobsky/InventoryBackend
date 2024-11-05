@@ -35,8 +35,10 @@ def recipe(request):
             else:
                 items = user.get('items', [])
                 question = "Please generate a recipe based on the following items and their expiration dates: "
+                if len(items) == 0:
+                    return HttpResponseBadRequest("No items to generate recipe from")
                 for item in items:
-                    question += f"{item['name']} ({item['expiration_date']}), "
+                    question += f"{item['name']} ({item['date']}), "
             response = openai.ChatCompletion.create(
                 model="gpt-4o-mini",
                 messages=[{"role": "user", "content": question}],
