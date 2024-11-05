@@ -12,12 +12,14 @@ import { auth } from '../firebaseConfig.js';
 import MiniLogo from '../assets/MiniLogo.png'
 import { Toast } from 'primereact/toast';
 import ThemeSwitcher from '../SwitchTheme';
+const { OpenAI } = require('openai');
 
 //Home page component
 const Home = () => {
     const [disableButton, setDisableButtons] = useState(false)
     const [visibleAddItem, setVisibleAddItem] = useState(false);
     const [visibleUpdateItem, setVisibleUpdateItem] = useState(false);
+    const [visibleRecipe, setVisibleRecipe] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null); 
     const [items, setItems] = useState([]); 
     const [newItemName, setNewItemName] = useState(''); 
@@ -27,6 +29,7 @@ const Home = () => {
     const toast = useRef(null);
     const location = useLocation();
     const { firebase_uid, csrfToken } = location.state || {};
+    const openai = new OpenAI({apiKey: process.env.REACT_APP_OPENAI_API_KEY});
 
     function getCookie(name) {
         let cookieValue = null;
@@ -192,6 +195,32 @@ const Home = () => {
         setSelectedItem(item);
         setNewItemName(item.name);
         setNewItemDate(item.date); 
+    };
+
+    //Generate a recipe based on the items in the database
+    const generateRecipe = async () => {
+        try {
+            if (items.length === 0) {
+                toast.current.show({ severity: 'error', summary: 'Error', detail: 'No items', life: 3000 });
+                return;
+            }
+            let question = "Please generate a recipe based on the following items and their expiration dates: ";
+            for (let i = 0; i < items.length; i++) {
+                question += items[i].name + " (" + items[i].date + ") ";
+            }
+            console.log("Question:", question);
+            const response = await openai.chat.completions.create({
+                model: "gpt-4o-mini",
+                messages: [{"role": "user", "content": question}],
+            });
+            const reply = response.choices[0].message.content;
+            console.log("Reply:", reply);
+            setVisibleRecipe(true);
+            document.getElementById("recipe").innerHTML = reply;
+        } catch (error) {
+            console.error(error);
+            toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to get recipe: ', error], life: 3000 });
+        }
     };
 
     //Update item in the database
@@ -368,6 +397,7 @@ const Home = () => {
                         <Column body={actionBodyTemplate} header="Actions" />                 
                     </DataTable>
                     <Button label="Add Item" disabled={disableButton} className="add-item-button" onClick={handleAddClick} />
+                    <Button label="Generate Recipe" disabled={disableButton} className="add-item-button" onClick={generateRecipe}>Generate Recipe</Button>
                 </div>
             </div>
             <Dialog header="Add Item" visible={visibleAddItem} style={{ width: '70vw'}} onHide={() => {setVisibleAddItem(false); setDisableButtons(false);}} footer={footerContent} draggable={false} resizable={false}>
@@ -383,29 +413,37 @@ const Home = () => {
                 </div>
             </Dialog>
             <Dialog header="Update Item" visible={visibleUpdateItem} style={{ width: '70vw'}} onHide={() => {setVisibleUpdateItem(false); setDisableButtons(false);}} footer={updateFooterContent} draggable={false} resizable={false}>
-                    <div className="p-fluid">
-                        <div className="p-field">
-                            <label htmlFor="updateItemName">Item Name</label>
-                            <input
-                                id="updateItemName"
-                                type="text"
-                                className="p-inputtext p-component"
-                                defaultValue={selectedItem ? selectedItem.item : ''}
-                                value={newItemName} onChange={(e) => setNewItemName(e.target.value)}
-                            />
-                        </div>
-                        <div className="p-field">
-                            <label htmlFor="updateItemDate">Date</label>
-                            <input
-                                id="updateItemDate"
-                                type="datetime-local"
-                                className="p-inputtext p-component"
-                                defaultValue={selectedItem ? selectedItem.date : ''}
-                                value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)}
-                            />
-                        </div>
+                <div className="p-fluid">
+                    <div className="p-field">
+                        <label htmlFor="updateItemName">Item Name</label>
+                        <input
+                            id="updateItemName"
+                            type="text"
+                            className="p-inputtext p-component"
+                            defaultValue={selectedItem ? selectedItem.item : ''}
+                            value={newItemName} onChange={(e) => setNewItemName(e.target.value)}
+                        />
                     </div>
-                </Dialog>
+                    <div className="p-field">
+                        <label htmlFor="updateItemDate">Date</label>
+                        <input
+                            id="updateItemDate"
+                            type="datetime-local"
+                            className="p-inputtext p-component"
+                            defaultValue={selectedItem ? selectedItem.date : ''}
+                            value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)}
+                        />
+                    </div>
+                </div>
+            </Dialog>
+            <Dialog header="Recipe" visible={visibleRecipe} style={{ width: '70vw'}} onHide={() => {setVisibleRecipe(false);}} draggable={false} resizable={false}>
+                <div className="p-fluid">
+                    <div className="p-field">
+                        <p id="recipe">
+                        </p>
+                    </div>
+                </div>
+            </Dialog>
             <Toast ref={toast} />
         </div>
     );

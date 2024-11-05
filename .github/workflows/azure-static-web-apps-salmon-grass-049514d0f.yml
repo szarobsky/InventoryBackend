@@ -22,6 +22,7 @@ jobs:
       REACT_APP_messagingSenderId: ${{ secrets.REACT_APP_messagingSenderId }}
       REACT_APP_appId: ${{ secrets.REACT_APP_appId }}
       REACT_APP_measurementId: ${{ secrets.REACT_APP_measurementId }}
+      REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
     steps:
       - uses: actions/checkout@v3
         with:
