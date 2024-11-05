@@ -402,7 +402,7 @@ const Home = () => {
                         onChange={(e) => setSearchString(e.target.value)}
                         style={{ marginBottom: '10px' }}
                     />
-                    <DataTable value={items.filter(item => item.name.toLowerCase().includes(searchString.toLowerCase()))} emptyMessage="No items">
+                    <DataTable value={items.filter(item => item.name.toLowerCase().includes(searchString.toLowerCase()))} emptyMessage="No items" scrollable scrollHeight="500px">
                         <Column field="name" header="Item"></Column>
                         <Column field="date" header="Date" sortable></Column>
                         <Column body={actionBodyTemplate} header="Actions" />                 
