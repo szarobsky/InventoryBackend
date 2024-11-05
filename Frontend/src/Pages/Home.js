@@ -98,7 +98,7 @@ const Home = () => {
                 } catch (error) {
                     setDisableButtons(false);
                     console.error("Error fetching items:", error);
-                    toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to fetch items: ', error], life: 3000 });
+                    toast.current.show({ severity: 'error', summary: 'Error', detail: `Failed to fetch items: ${error.message}`, life: 3000 });
                 }
             };
         }
@@ -173,7 +173,7 @@ const Home = () => {
         } catch (error) {
             console.error("Error adding item:", error);
             setDisableButtons(false);
-            toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to add item: ', error], life: 3000 });
+            toast.current.show({ severity: 'error', summary: 'Error', detail: `Failed to add item: ${error.message}`, life: 3000 });
         }
     };
 
@@ -227,7 +227,7 @@ const Home = () => {
             setVisibleRecipe(true);
         } catch (error) {
             console.error("Error fetching recipe:", error);
-            toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to fetch recipe: ', error], life: 3000 });
+            toast.current.show({ severity: 'error', summary: 'Error', detail: `Failed to fetch recipe: ${error.message}`, life: 3000 });
         }
     };
 
@@ -271,7 +271,7 @@ const Home = () => {
             console.error('Error parsing JSON:', error);
             console.log('Response data:', data);
             setDisableButtons(false);
-            toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to update item: ', error], life: 3000 });
+            toast.current.show({ severity: 'error', summary: 'Error', detail: `Failed to update item: ${error.message}`, life: 3000 });
             return;
         }
         console.log("Update result:", data);
@@ -317,7 +317,7 @@ const Home = () => {
             console.error('Error parsing JSON:', error);
             console.log('Response data:', data);
             setDisableButtons(false);
-            toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to delete item: ', error], life: 3000 });
+            toast.current.show({ severity: 'error', summary: 'Error', detail: `Failed to delete item: ${error.message}`, life: 3000 });
             return;
         }
         console.log("Delete result:", data);
@@ -404,8 +404,10 @@ const Home = () => {
                         <Column field="date" header="Date" sortable></Column>
                         <Column body={actionBodyTemplate} header="Actions" />                 
                     </DataTable>
-                    <Button label="Add Item" disabled={disableButton} className="add-item-button" onClick={handleAddClick} />
-                    <Button label="Generate Recipe" disabled={disableButton} className="add-item-button" onClick={generateRecipe}/>
+                    <div style={{alignItems: 'horizontal'}}>
+                        <Button label="Add Item" disabled={disableButton} className="add-item-button" onClick={handleAddClick} />
+                        <Button label="Generate Recipe" disabled={disableButton} className="add-item-button" onClick={generateRecipe}/>
+                    </div>
                 </div>
             </div>
             <Dialog header="Add Item" visible={visibleAddItem} style={{ width: '70vw'}} onHide={() => {setVisibleAddItem(false); setDisableButtons(false);}} footer={footerContent} draggable={false} resizable={false}>

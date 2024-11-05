@@ -39,11 +39,12 @@ def recipe(request):
                     return HttpResponseBadRequest("No items to generate recipe from")
                 for item in items:
                     question += f"{item['name']} ({item['date']}), "
-            response = openai.ChatCompletion.create(
+            response = openai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[{"role": "user", "content": question}],
             )
-            return JsonResponse({'response': response.choices[0].message})
+            reply = response.choices[0].message.content # WAS WORKING WITHOUT SUBSCRIPTING
+            return HttpResponse(reply) 
         except Exception as e:
             return HttpResponseServerError(f"An error occurred: {e}")
     else:
