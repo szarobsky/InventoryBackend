@@ -1,8 +1,11 @@
 from django.http import JsonResponse, HttpResponse, HttpResponseServerError, HttpResponseBadRequest
-from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
 from .utils import get_mongo_db, check_mongo_connection
+import openai
 import json
+from django.conf import settings
+
+openai.api_key = settings.OPENAI_API_KEY
 
 def home(request):
     return HttpResponse("Welcome to the Home Page!")
@@ -13,6 +16,37 @@ def get_csrf_token(request):
         print("CSRF Token:", csrftoken)
         return JsonResponse({'csrftoken': csrftoken})
     return JsonResponse({'error': 'Bad Request'}, status=400)
+
+def recipe(request):
+    if request.method == 'POST':
+        if not check_mongo_connection():
+            return HttpResponseServerError("Failed to connect to MongoDB")
+        try:
+            data = json.loads(request.body)
+            firebase_uid = data.get('firebase_uid')
+            if not firebase_uid:
+                return HttpResponseBadRequest("Missing firebase_uid")
+
+            db = get_mongo_db()
+            collection = db['users']
+
+            user = collection.find_one({'firebase_uid': firebase_uid})
+            if user is None:
+                return HttpResponseBadRequest("User not found")
+            else:
+                items = user.get('items', [])
+                question = "Please generate a recipe based on the following items and their expiration dates: "
+                for item in items:
+                    question += f"{item['name']} ({item['expiration_date']}), "
+            response = openai.ChatCompletion.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": question}],
+            )
+            return JsonResponse({'response': response.choices[0].message})
+        except Exception as e:
+            return HttpResponseServerError(f"An error occurred: {e}")
+    else:
+        return HttpResponseBadRequest("Only POST requests are allowed")
 
 def item(request):
     if request.method == 'POST':

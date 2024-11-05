@@ -12,7 +12,6 @@ import { auth } from '../firebaseConfig.js';
 import MiniLogo from '../assets/MiniLogo.png'
 import { Toast } from 'primereact/toast';
 import ThemeSwitcher from '../SwitchTheme';
-const { OpenAI } = require('openai');
 
 //Home page component
 const Home = () => {
@@ -29,7 +28,6 @@ const Home = () => {
     const toast = useRef(null);
     const location = useLocation();
     const { firebase_uid, csrfToken } = location.state || {};
-    const openai = new OpenAI({apiKey: process.env.REACT_APP_OPENAI_API_KEY});
 
     function getCookie(name) {
         let cookieValue = null;
@@ -200,26 +198,36 @@ const Home = () => {
     //Generate a recipe based on the items in the database
     const generateRecipe = async () => {
         try {
-            if (items.length === 0) {
-                toast.current.show({ severity: 'error', summary: 'Error', detail: 'No items', life: 3000 });
-                return;
+            const user = {'firebase_uid': firebase_uid};
+            let csrf = getCookie('csrftoken');
+            if (csrf === null) {
+                csrf = csrfToken;
             }
-            let question = "Please generate a recipe based on the following items and their expiration dates: ";
-            for (let i = 0; i < items.length; i++) {
-                question += items[i].name + " (" + items[i].date + ") ";
-            }
-            console.log("Question:", question);
-            const response = await openai.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: [{"role": "user", "content": question}],
+            console.log("CSRF Token:", csrf);
+            const response = await fetch('https://inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net/recipe/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrf,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user),
+                credentials: 'include'  
             });
-            const reply = response.choices[0].message.content;
-            console.log("Reply:", reply);
+            let data = await response.text();
+
+            //Attempt to parse as JSON
+            try {
+                const jsonData = JSON.parse(data);
+                data = jsonData;
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                console.log('Response data:', data);
+            }
+            document.getElementById("recipe").innerHTML = data.response;
             setVisibleRecipe(true);
-            document.getElementById("recipe").innerHTML = reply;
         } catch (error) {
-            console.error(error);
-            toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to get recipe: ', error], life: 3000 });
+            console.error("Error fetching recipe:", error);
+            toast.current.show({ severity: 'error', summary: 'Error', detail: ['Failed to fetch recipe: ', error], life: 3000 });
         }
     };
 

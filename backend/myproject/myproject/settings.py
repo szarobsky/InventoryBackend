@@ -32,6 +32,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'inventorykh2024-backend-fta8gwhqhwgqfchv.eastus-01.azurewebsites.net', '127.0.0.1']
 
+OPENAI_API_KEY = config('OPENAI_API_KEY')
 
 # Application definition
 

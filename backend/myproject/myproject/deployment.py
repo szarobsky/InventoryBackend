@@ -1,4 +1,5 @@
 import os
+from decouple import config
 from .settings import *
 from .settings import BASE_DIR
 
@@ -24,6 +25,8 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True       
 CSRF_COOKIE_SAMESITE = 'None'   
 SESSION_COOKIE_SAMESITE = 'None'
+
+OPENAI_API_KEY = config('OPENAI_API_KEY')
 
 CORS_ALLOW_ALL_ORIGINS = False
 
