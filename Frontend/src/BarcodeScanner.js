@@ -26,6 +26,7 @@ const BarcodeScanner = ({ visible, onHide, onScan }) => {
                     onScan(data.product.generic_name_en);
                     onHide();
                 } else {
+                    console.log('No valid product found:', data);
                     toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'No valid product found. Please scan again.', life: 3000 });
                 }
             } catch (error) {
