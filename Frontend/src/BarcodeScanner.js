@@ -39,8 +39,8 @@ const BarcodeScanner = ({ visible, onHide, onScan }) => {
         <Dialog header="Barcode Scanner" visible={visible} onHide={onHide} style={{ width: '80vw' }} draggable={false} resizable={false}>
             <Toast ref={toast} />
             <BarcodeScannerComponent
-                width={500}
-                height={500}
+                width="100%"
+                height="100%"
                 onUpdate={handleScan}
             />
         </Dialog>
