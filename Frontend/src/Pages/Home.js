@@ -4,7 +4,7 @@ import 'primereact/resources/primereact.min.css';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import './Landing.css'; // Custom CSS file
+import './Landing.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -13,6 +13,7 @@ import { auth } from '../firebaseConfig.js';
 import MiniLogo from '../assets/MiniLogo.png'
 import { Toast } from 'primereact/toast';
 import ThemeSwitcher from '../SwitchTheme';
+import BarcodeScanner from '../BarcodeScanner';
 
 //Home page component
 const Home = () => {
@@ -20,6 +21,7 @@ const Home = () => {
     const [visibleAddItem, setVisibleAddItem] = useState(false);
     const [visibleUpdateItem, setVisibleUpdateItem] = useState(false);
     const [visibleRecipe, setVisibleRecipe] = useState(false);
+    const [visibleBarcodeScanner, setVisibleBarcodeScanner] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null); 
     const [items, setItems] = useState([]); 
     const [newItemName, setNewItemName] = useState(''); 
@@ -47,6 +49,10 @@ const Home = () => {
         }
         return cookieValue;
     }
+
+    const handleScan = (itemName) => {
+        setNewItemName(itemName);
+    };
 
     //Function to fetch items for the user
     const fetchItems = useCallback(async () => {
@@ -443,6 +449,7 @@ const Home = () => {
                     <div className="p-field">
                         <label htmlFor="itemName">Item Name</label>
                         <input id="itemName" type="text" className="p-inputtext p-component" value={newItemName} onChange={(e) => setNewItemName(e.target.value)} />
+                        <Button label="Scan Barcode" onClick={() => setVisibleBarcodeScanner(true)} />
                     </div>
                     <div className="p-field">
                         <label htmlFor="itemDate">Date</label>
@@ -461,6 +468,7 @@ const Home = () => {
                             defaultValue={selectedItem ? selectedItem.item : ''}
                             value={newItemName} onChange={(e) => setNewItemName(e.target.value)}
                         />
+                        <Button label="Scan Barcode" onClick={() => setVisibleBarcodeScanner(true)} />
                     </div>
                     <div className="p-field">
                         <label htmlFor="updateItemDate">Date</label>
@@ -481,6 +489,7 @@ const Home = () => {
                     </div>
                 </div>
             </Dialog>
+            <BarcodeScanner visible={visibleBarcodeScanner} onHide={() => setVisibleBarcodeScanner(false)} onScan={handleScan} />
             <Toast ref={toast} />
         </div>
     );
