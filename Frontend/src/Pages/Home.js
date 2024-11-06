@@ -122,11 +122,11 @@ const Home = () => {
     //Convert ISO date time string to date time string
     const convertDateTimeString = (str) => {
         console.log("ISO to String:", str);
-        if (str && str !== "01-01-2024T23:59") {
+        if (str && str !== "2024-01-01T23:59") {
             return str.substring(0, 10) + " " + str.substring(11);
         }
         else {
-            return "01-01-2024 23:59";
+            return "2024-01-01 23:59";
         }
     };
 
@@ -204,7 +204,7 @@ const Home = () => {
     //Open add item dialog and set date to today at 11:59 PM
     const handleAddClick = () => {
         setNewItemName('');
-        setNewItemDate("01-01-2024T23:59"); 
+        setNewItemDate("2024-01-01T23:59"); 
         setDisableButtons(true);
         setVisibleAddItem(true); 
     };
