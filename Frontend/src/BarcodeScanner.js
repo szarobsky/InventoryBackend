@@ -11,7 +11,6 @@ const BarcodeScanner = ({ visible, onHide, onScan }) => {
     const handleScan = async (err, result) => {
         if (err) {
             console.error('Scanning error:', err);
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Scanning failed. Please try again.', life: 3000 });
             return;
         }
 
@@ -22,8 +21,8 @@ const BarcodeScanner = ({ visible, onHide, onScan }) => {
                 const data = await response.json();
 
                 //Check if product data is valid
-                if (data.product && data.product.generic_name_en) {
-                    onScan(data.product.generic_name_en);
+                if (data.product && data.product.product_name_en) {
+                    onScan(data.product.product_name_en);
                     onHide();
                 } else {
                     console.log('No valid product found:', data);
