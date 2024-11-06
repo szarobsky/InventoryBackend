@@ -137,7 +137,7 @@ const Landing = () => {
                 <p>
                     This project is now being continued on by Sean Zarobsky.
                 </p>
-                <a href="www.seanzarobsky.com">www.seanzarobsky.com</a>
+                <a href="http://www.seanzarobsky.com">www.seanzarobsky.com</a>
             </Dialog>
             <Dialog header="Notes" visible={visibleNotes} position={'top'} style={{ width: '70vw' }} onHide={() => setVisibleNotes(false)} draggable={false} resizable={false}>
                 <p className="m-0">
