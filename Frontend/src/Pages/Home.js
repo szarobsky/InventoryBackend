@@ -442,7 +442,7 @@ const Home = () => {
                     <div className="p-field">
                         <label htmlFor="itemName">Item Name</label>
                         <input id="itemName" type="text" className="p-inputtext p-component" value={newItemName} onChange={(e) => setNewItemName(e.target.value)} />
-                        <Button label="Scan Barcode" onClick={() => setVisibleBarcodeScanner(true)} />
+                        <Button label="Scan Barcode for Name" onClick={() => setVisibleBarcodeScanner(true)} />
                     </div>
                     <div className="p-field">
                         <label htmlFor="itemDate">Date</label>
