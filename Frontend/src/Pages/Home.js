@@ -113,24 +113,22 @@ const Home = () => {
         fetchItems();
     }, [fetchItems]);
 
-
-    //Get today's date at 11:59 PM
-    const getTodayAt1159PM = () => {
-        const now = new Date();
-        now.setHours(23, 59, 0, 0); // Set time to 11:59 PM
-        const offset = now.getTimezoneOffset() * 60000;
-        const adjustedDate = new Date(now.getTime() - offset);
-        return adjustedDate.toISOString().slice(0, 16);; // Format to 'YYYY-MM-DDTHH:MM'
-    };
-
     //Convert date time string to ISO format
     const convertToISODateTime = (str) => {
+        if (str == "N/A") {
+            return "0";
+        }
         return str.substring(0, 10) + "T" + str.substring(11)
     };
 
     //Convert ISO date time string to date time string
     const convertDateTimeString = (str) => {
-        return str.substring(0, 10) + " " + str.substring(11)
+        if (str && str != "01-01-2024T23:59") {
+            return str.substring(0, 10) + " " + str.substring(11);
+        }
+        else {
+            return "N/A";
+        }
     };
 
     //Validate inputs for adding or updating an item
@@ -139,19 +137,17 @@ const Home = () => {
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Item name cannot be empty', life: 3000 });
             return false;
         }
-        if (!newItemDate) {
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Date cannot be empty', life: 3000 });
-            return false;
-        }
-        const date = new Date(newItemDate);
-        if (isNaN(date.getTime())) {
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Invalid date format', life: 3000 });
-            return false;
-        }
-        const year = date.getFullYear().toString();
-        if (year.length !== 4) {
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Year must be 4 digits', life: 3000 });
-            return false;
+        if (newItemDate) {
+            const date = new Date(newItemDate);
+            if (isNaN(date.getTime())) {
+                toast.current.show({ severity: 'error', summary: 'Error', detail: 'Invalid date format', life: 3000 });
+                return false;
+            }
+            const year = date.getFullYear().toString();
+            if (year.length !== 4) {
+                toast.current.show({ severity: 'error', summary: 'Error', detail: 'Year must be 4 digits', life: 3000 });
+                return false;
+            }
         }
         return true;
     };
@@ -209,7 +205,7 @@ const Home = () => {
     //Open add item dialog and set date to today at 11:59 PM
     const handleAddClick = () => {
         setNewItemName('');
-        setNewItemDate(getTodayAt1159PM()); 
+        setNewItemDate("01-01-2024T23:59"); 
         setDisableButtons(true);
         setVisibleAddItem(true); 
     };
