@@ -44,7 +44,10 @@ def recipe(request):
             if len(items) == 0:
                 return HttpResponseBadRequest("No items to generate recipe from")
             for item in items:
-                question += f"{item['name']} ({item['date']}), "
+                if item['date'] == "2024-01-01 23:59":
+                    question += f"{item['name']}, "
+                else:
+                    question += f"{item['name']} ({item['date']}), "
             response = openai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[{"role": "user", "content": question}],

@@ -116,23 +116,13 @@ const Home = () => {
     //Convert date time string to ISO format
     const convertToISODateTime = (str) => {
         console.log("String to ISO:", str);
-        if (str !== "0") {
-            return str.substring(0, 10) + "T" + str.substring(11);
-        }
-        else {
-            return "2024-01-01T23:59";
-        }
+        return str.substring(0, 10) + "T" + str.substring(11);
     };
 
     //Convert ISO date time string to date time string
     const convertDateTimeString = (str) => {
         console.log("ISO to String:", str);
-        if (str && str !== "2024-01-01T23:59") {
-            return str.substring(0, 10) + " " + str.substring(11);
-        }
-        else {
-            return "0";
-        }
+         return str.substring(0, 10) + " " + str.substring(11);
     };
 
     //Validate inputs for adding or updating an item
@@ -152,6 +142,10 @@ const Home = () => {
                 toast.current.show({ severity: 'error', summary: 'Error', detail: 'Year must be 4 digits', life: 3000 });
                 return false;
             }
+        }
+        else {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Date cannot be empty', life: 3000 });
+            return false;
         }
         return true;
     };
@@ -424,7 +418,7 @@ const Home = () => {
                         onChange={(e) => setSearchString(e.target.value)}
                         style={{ marginBottom: '10px' }}
                     />
-                    <DataTable value={items.filter(item => item.name.toLowerCase().includes(searchString.toLowerCase()))} emptyMessage="No items" scrollable scrollHeight="400px">
+                    <DataTable value={items.filter(item => item.name.toLowerCase().includes(searchString.toLowerCase()))} emptyMessage="No items" scrollable scrollHeight="400px" sortField="date" sortOrder={1}>
                         <Column field="name" header="Item"></Column>
                         <Column field="date" header="Date" sortable></Column>
                         <Column body={actionBodyTemplate} header="Actions" />                 
@@ -452,7 +446,7 @@ const Home = () => {
                         <Button label="Scan Barcode" onClick={() => setVisibleBarcodeScanner(true)} />
                     </div>
                     <div className="p-field">
-                        <label htmlFor="itemDate">Date</label>
+                        <label htmlFor="itemDate">Date (leave default for N/A)</label>
                         <input id="itemDate" type="datetime-local" className="p-inputtext p-component" value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)} />
                     </div>
                 </div>
