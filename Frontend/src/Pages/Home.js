@@ -445,7 +445,7 @@ const Home = () => {
                         <Button label="Scan Barcode" onClick={() => setVisibleBarcodeScanner(true)} />
                     </div>
                     <div className="p-field">
-                        <label htmlFor="itemDate">Date (leave default 01/01/2024 11:59PM for N/A)</label>
+                        <label htmlFor="itemDate">Date</label>
                         <input id="itemDate" type="datetime-local" className="p-inputtext p-component" value={newItemDate} onChange={(e) => setNewItemDate(e.target.value)} />
                     </div>
                 </div>
