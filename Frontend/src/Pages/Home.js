@@ -115,11 +115,13 @@ const Home = () => {
 
     //Convert date time string to ISO format
     const convertToISODateTime = (str) => {
-        return str.substring(0, 10) + "T" + str.substring(11)
+        console.log("String to ISO:", str);
+        return str.substring(0, 10) + "T" + str.substring(11);
     };
 
     //Convert ISO date time string to date time string
     const convertDateTimeString = (str) => {
+        console.log("ISO to String:", str);
         if (str && str !== "01-01-2024T23:59") {
             return str.substring(0, 10) + " " + str.substring(11);
         }
