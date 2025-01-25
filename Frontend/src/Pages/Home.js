@@ -200,10 +200,10 @@ const Home = () => {
         }
     };
 
-    //Open add item dialog and set date to today at 11:59 PM
+    //Open add item dialog and set date to 1/1/202 at 11:59 PM
     const handleAddClick = () => {
         setNewItemName('');
-        setNewItemDate("2024-01-01T23:59"); 
+        setNewItemDate("2025-01-01T23:59"); 
         setDisableButtons(true);
         setVisibleAddItem(true); 
     };
@@ -415,7 +415,7 @@ const Home = () => {
                         placeholder="Search item name"
                         value={searchString}
                         onChange={(e) => setSearchString(e.target.value)}
-                        style={{ marginBottom: '10px' }}
+                        style={{ marginBottom: '10px' }}o
                     />
                     <DataTable value={items.filter(item => item.name.toLowerCase().includes(searchString.toLowerCase()))} emptyMessage="No items" scrollable scrollHeight="400px" sortField="date" sortOrder={1}>
                         <Column field="name" header="Item"></Column>
